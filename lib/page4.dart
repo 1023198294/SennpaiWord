@@ -113,7 +113,7 @@ class MyPageWidgetState extends State<MyPageWidget>{
             ),
             onTap: (){
               print('分享应用');
-              Share.share('www.baidu.com');
+              Share.share('https://github.com/1023198294/SennpaiWord.git');
             },
           ),
           //sectionB,
