@@ -16,6 +16,7 @@ class HomePageWidgetState extends State<HomePageWidget>{
   @override
 
   Widget build(BuildContext context) {
+    //test get
     _get() async{
       var url = 'http://10.0.2.2:5000';
       var httpClient = new HttpClient();
