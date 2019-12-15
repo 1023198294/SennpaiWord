@@ -5,7 +5,9 @@ import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_app/main.dart';
+
 class LoginPage extends StatefulWidget{
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -177,6 +179,96 @@ class _LoginPageState extends State<LoginPage>{
           },
       )
     );
+    Widget thirdLoginArea = new Container(
+      margin: EdgeInsets.only(left: 20,right: 20),
+      child: new Column(
+        children: [
+          new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 80,
+                height: 1.0,
+                color: Colors.grey,
+
+              ),
+              Text(
+                  '第三方登录'
+              ),
+              Container(
+                width: 80,
+                height: 1.0,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+          new SizedBox(
+            height: 18,
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                color: Colors.green[200],
+                // 第三方库icon图标
+                icon: Icon(FontAwesomeIcons.weixin),
+                iconSize: 40.0,
+                onPressed: (){
+                },
+              ),
+              IconButton(
+                color: Colors.green[200],
+                icon: Icon(FontAwesomeIcons.facebook),
+                iconSize: 40.0,
+                onPressed: (){
+                },
+              ),
+              IconButton(
+                color: Colors.green[200],
+                icon: Icon(FontAwesomeIcons.qq),
+                iconSize: 40.0,
+                onPressed: (){
+                },
+              )
+            ],
+          )
+        ],
+      ),
+    );
+    Widget bottomArea = new Container(
+      margin: EdgeInsets.only(right: 20,left: 30),
+      child: new Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FlatButton(
+            child: Text(
+              "忘记密码?",
+              style: TextStyle(
+                color: Colors.blue[400],
+                fontSize: 16.0,
+              ),
+            ),
+            //忘记密码按钮，点击执行事件
+            onPressed: (){
+            },
+          ),
+          FlatButton(
+            child: Text(
+              "快速注册",
+              style: TextStyle(
+                color: Colors.blue[400],
+                fontSize: 16.0,
+              ),
+            ),
+            //点击快速注册、执行事件
+            onPressed: (){
+            },
+          )
+        ],
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       // 外层添加一个手势，用于点击空白部分，回收键盘
@@ -195,10 +287,10 @@ class _LoginPageState extends State<LoginPage>{
             inputTextArea,
             new SizedBox(height: ScreenUtil().setHeight(80),),
             loginButtonArea,
-            //new SizedBox(height: ScreenUtil().setHeight(60),),
-            //thirdLoginArea,
-            //new SizedBox(height: ScreenUtil().setHeight(60),),
-            //bottomArea,
+            new SizedBox(height: ScreenUtil().setHeight(60),),
+            thirdLoginArea,
+            new SizedBox(height: ScreenUtil().setHeight(60),),
+            bottomArea,
           ],
         ),
       ),
