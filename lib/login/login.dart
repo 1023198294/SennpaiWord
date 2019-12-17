@@ -266,9 +266,7 @@ class _LoginPageState extends State<LoginPage>{
             ),
             //点击快速注册、执行事件
             onPressed: (){
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context)=>SignUpPage()),(route)=>route == null
-              );
+              Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (BuildContext context) => new SignUpPage()), (Route route) => route == null);
             },
           )
         ],

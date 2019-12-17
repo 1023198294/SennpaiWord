@@ -35,6 +35,7 @@ class MyHomePageState extends State<MyHomePage>{
   @override
   void initState(){
     super.initState();
+    //DataUtils.TestLogOut().then((res){}); //仅供测试
     DataUtils.checkLogin().then((haslogin){
       if (haslogin == true){
         setState(() {
@@ -53,11 +54,17 @@ class MyHomePageState extends State<MyHomePage>{
   }
   showWelcomePage(){
     DataUtils.checkLogin().then((res){
+      bool haslogin = false;
       if (res) {
-        return BottomNavigationWidget();
+        print('already log in');
+        haslogin = true;
       }else{
-        return LoginPage();
+        print('not log in yet');
+        haslogin = false;
       }
+      setState(() {
+        _hasLogin = haslogin;
+      });
     });
     if (_hasLogin){
       return BottomNavigationWidget();

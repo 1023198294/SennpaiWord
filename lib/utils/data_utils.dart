@@ -37,12 +37,16 @@ class DataUtils{
     return response['data'];
     //await prefs.setBool('if_login', true);
   }
+  static Future TestLogOut() async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('if_login', false);
+    return true;
+  }
   static Future doLogOut(Map<String,dynamic> params) async{
     final prefs = await SharedPreferences.getInstance();
     var response = await NetUtils.post(Api.DO_LOGOUT,params);
     prefs.setBool('if_login',false);
     return response['data'];
-
   }
   static Future getInfoUserOverview(Map<String,dynamic> params,int uid,String infotype) async{
     var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid.toString()+'/overview', params);
