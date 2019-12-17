@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_app/main.dart';
-
+import 'package:flutter_app/login/sign_up.dart';
 class LoginPage extends StatefulWidget{
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -169,12 +169,14 @@ class _LoginPageState extends State<LoginPage>{
             isLoading = true;
           });
           DataUtils.doLogin({
+            'type':1,
             'username':_username,
             'password':_password
           }).then((userResult){
+
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
-            );
+            );//directly to the home page
           });
           },
       )
@@ -218,14 +220,14 @@ class _LoginPageState extends State<LoginPage>{
                 },
               ),
               IconButton(
-                color: Colors.green[200],
+                color: Colors.blue[600],
                 icon: Icon(FontAwesomeIcons.facebook),
                 iconSize: 40.0,
                 onPressed: (){
                 },
               ),
               IconButton(
-                color: Colors.green[200],
+                color: Colors.blue[200],
                 icon: Icon(FontAwesomeIcons.qq),
                 iconSize: 40.0,
                 onPressed: (){
@@ -264,11 +266,15 @@ class _LoginPageState extends State<LoginPage>{
             ),
             //点击快速注册、执行事件
             onPressed: (){
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context)=>SignUpPage()),(route)=>route == null
+              );
             },
           )
         ],
       ),
     );
+
     return Scaffold(
       backgroundColor: Colors.white,
       // 外层添加一个手势，用于点击空白部分，回收键盘

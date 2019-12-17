@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'page1/first_page.dart';
 
 class HomePageWidget extends StatefulWidget{
   @override
@@ -11,35 +10,40 @@ class HomePageWidget extends StatefulWidget{
 }
 
 class HomePageWidgetState extends State<HomePageWidget>{
-
-  var title = 'unknown';
   @override
-
   Widget build(BuildContext context) {
-    //test get
-    _get() async{
-      var url = 'http://10.0.2.2:5000';
-      var httpClient = new HttpClient();
-      var request = await httpClient.getUrl(Uri.parse(url));
-      var response = await request.close();
-      var responseBody = await response.transform(utf8.decoder).join();
-      //print(responseBody);
-      return responseBody;
-    }
-    _get().then((result) {
-        title = result;
-        print('结果就是$title');
-      }
-    );
-    print(title);
     return new Scaffold(
-      appBar: AppBar(
-        title: new Text('title:$title'),
+//      appBar: new AppBar(
+//        title: new Text('首页'),
+//      ),
+      body: Container(
+        child: LoginScreen2(
+          backgroundColor1: Color(0xFF444152),
+          backgroundColor2: Color(0xFF6f6c7d),
+          highlightColor: Color(0xfff65aa3),
+          foregroundColor: Colors.white,
+//        logo: new AssetImage("assets/images/full-bloom.png"),
+        ),
       ),
-      body: new Center(
-        child: Icon(Icons.home,size: 130.0,color: Colors.blue,),
-      ),
+
     );
   }
 }
+
+
+//new Center(
+//child: Column(children: <Widget>[
+//Icon(Icons.home,size: 130.0,color: Colors.blue,),
+//RaisedButton(
+//child: new Text('Launch new screen'),
+//onPressed: () {
+//Navigator.push(
+//context,
+//new MaterialPageRoute(builder: (context) => new SecondScreen()),
+//);
+//},
+//),
+//],
+//),
+//),
 

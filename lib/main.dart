@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget{
     return new MaterialApp(
       title:'欢迎',
       home: new MyHomePage(),
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(primaryColor: new Color(0xfff4f4f4)),
     );
   }
 }
@@ -32,8 +32,6 @@ class MyHomePageState extends State<MyHomePage>{
   bool _isLoading = true;
   bool isConnected = false;
   String registrationId;
-
-
   @override
   void initState(){
     super.initState();
@@ -54,6 +52,13 @@ class MyHomePageState extends State<MyHomePage>{
     });
   }
   showWelcomePage(){
+    DataUtils.checkLogin().then((res){
+      if (res) {
+        return BottomNavigationWidget();
+      }else{
+        return LoginPage();
+      }
+    });
     if (_hasLogin){
       return BottomNavigationWidget();
       //_hasLogin = true; // 占位
@@ -66,7 +71,7 @@ class MyHomePageState extends State<MyHomePage>{
     return new MaterialApp(
       title:'主页面',
       home: new Scaffold(body: showWelcomePage()),
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(primaryColor: new Color(0xfff4f4f4)),
     );
   }
 }
