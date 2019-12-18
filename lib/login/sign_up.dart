@@ -35,6 +35,54 @@ class _SignUpPageState extends State<SignUpPage>{
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNodeUserName.addListener(_focusNodeListener);
+    _focusNodeUserPassWord.addListener(_focusNodeListener);
+    _focusNodeUserEmail.addListener(_focusNodeListener);
+    _focusNodeUserPhone.addListener(_focusNodeListener);
+
+    _userNameController.addListener(() {
+      print(_userNameController.text);
+      if (_userNameController.text.length > 0) {
+        _isShowNameClear = true;
+      } else {
+        _isShowNameClear = false;
+      }
+      setState(() {});
+    });
+    _userEmailController.addListener(() {
+      print(_userEmailController.text);
+      if (_userEmailController.text.length > 0) {
+        _isShowEmailClear = true;
+      } else {
+        _isShowEmailClear = false;
+      }
+      setState(() {});
+    });
+    _userPhoneController.addListener(() {
+      print(_userPhoneController.text);
+      if (_userPhoneController.text.length > 0) {
+        _isShowPhoneClear = true;
+      } else {
+        _isShowPhoneClear = false;
+      }
+      setState(() {});
+    });
+  }
+  @override
+  void dispose(){
+    _focusNodeUserName.removeListener(_focusNodeListener);
+    _focusNodeUserPassWord.removeListener(_focusNodeListener);
+    _focusNodeUserPhone.removeListener(_focusNodeListener);
+    _focusNodeUserEmail.removeListener(_focusNodeListener);
+    _userNameController.dispose();
+    _userPhoneController.dispose();
+    _userEmailController.dispose();
+    super.dispose();
+  }
   Future _focusNodeListener() async{
     if(_focusNodeUserName.hasFocus) {
       print('focus on username');
@@ -90,54 +138,9 @@ class _SignUpPageState extends State<SignUpPage>{
     return null;
   }
   @override
-  void initState() {
-    super.initState();
-    _focusNodeUserName.addListener(_focusNodeListener);
-    _focusNodeUserPassWord.addListener(_focusNodeListener);
-    _focusNodeUserEmail.addListener(_focusNodeListener);
-    _focusNodeUserPhone.addListener(_focusNodeListener);
-
-    _userNameController.addListener(() {
-      print(_userNameController.text);
-      if (_userNameController.text.length > 0) {
-        _isShowNameClear = true;
-      } else {
-        _isShowNameClear = false;
-      }
-      setState(() {});
-    });
-    _userEmailController.addListener(() {
-      print(_userEmailController.text);
-      if (_userEmailController.text.length > 0) {
-        _isShowEmailClear = true;
-      } else {
-        _isShowEmailClear = false;
-      }
-      setState(() {});
-    });
-    _userPhoneController.addListener(() {
-      print(_userPhoneController.text);
-      if (_userPhoneController.text.length > 0) {
-        _isShowPhoneClear = true;
-      } else {
-        _isShowPhoneClear = false;
-      }
-      setState(() {});
-    });
-  }
-  @override
-  void dispose(){
-    _focusNodeUserName.removeListener(_focusNodeListener);
-    _focusNodeUserPassWord.removeListener(_focusNodeListener);
-    _focusNodeUserPhone.removeListener(_focusNodeListener);
-    _focusNodeUserEmail.removeListener(_focusNodeListener);
-    _userNameController.dispose();
-    _userPhoneController.dispose();
-    _userEmailController.dispose();
-    super.dispose();
-  }
-  @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750,height: 1334)..init(context);
+    print(ScreenUtil().scaleHeight);
     Widget inputTextArea = new Container(
       margin: EdgeInsets.only(left: 20,right: 20),
       decoration: BoxDecoration(
@@ -301,11 +304,12 @@ class _SignUpPageState extends State<SignUpPage>{
         );//directly to the home page
       },
     );
-    DataUtils.checkLogin().then((result){
+    /*DataUtils.checkLogin().then((result){
       if (result)
         return FinalPage;
       else
         return BottomNavigationWidget;
-    });
+    });*/
+    return FinalPage;
   }
 }

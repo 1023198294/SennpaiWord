@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:flutter_app/page4/feedback.dart';
 class MyPageWidget extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -73,6 +74,8 @@ class MyPageWidgetState extends State<MyPageWidget>{
               ),
               onTap: (){
                 print('意见反馈');
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=>FeedBackPage()));
               },
             ),
             new Divider(),

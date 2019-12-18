@@ -162,18 +162,20 @@ class _LoginPageState extends State<LoginPage>{
           if (_formKey.currentState.validate()) {
             //只有输入通过验证，才会执行这里
             _formKey.currentState.save();
-            //todo 登录操作
+            //todo 登录操作 , 非测试环境下把下面的代码黏上来
             print("$_username log in with password $_password");
           }
           setState(() {
             isLoading = true;
           });
-          DataUtils.doLogin({
-            'type':1,
-            'username':_username,
-            'password':_password
+          DataUtils.doLogin(
+              {
+                'data':{
+                  'type':1,
+                  'username':_username,
+                  'password':_password
+                }
           }).then((userResult){
-
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
             );//directly to the home page
@@ -254,6 +256,16 @@ class _LoginPageState extends State<LoginPage>{
             ),
             //忘记密码按钮，点击执行事件
             onPressed: (){
+              DataUtils.doTestApi(
+                  {
+                  'data':{
+                  'username':'hyj0',
+                  'password':'12345678',
+                  'phone':12345678901,
+                }
+              }).then((res){
+                print(res);
+              });
             },
           ),
           FlatButton(

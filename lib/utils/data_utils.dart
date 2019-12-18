@@ -70,7 +70,16 @@ class DataUtils{
     var response = await NetUtils.post(Api.POST_FEEDBACK, params);
     return response['data'];
   }
+
+
+
+  static Future doTestApi(Map<String,dynamic> params)async{
+    var response = await NetUtils.post(Api.Test_API+'/17341059', params);
+    return response['data'];
+  }
 }
+
+
 
 String _encode(Object object) =>
     const JsonEncoder.withIndent(' ').convert(object);

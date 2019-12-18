@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/login/login.dart';
 import 'package:flutter_app/utils/data_utils.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'page1.dart';
 import 'page2.dart';
 import 'page3.dart';
@@ -35,15 +36,17 @@ class MyHomePageState extends State<MyHomePage>{
   @override
   void initState(){
     super.initState();
-    //DataUtils.TestLogOut().then((res){}); //仅供测试
+    DataUtils.TestLogOut().then((res){}); //仅供测试
     DataUtils.checkLogin().then((haslogin){
       if (haslogin == true){
+        print('has login');
         setState(() {
           _hasLogin = true;
           _isLoading = false;
           //print('has logged in');
         });
       }else{
+        print('not log in yet');
         setState(() {
           _hasLogin = false;
           _isLoading = false;
@@ -53,7 +56,7 @@ class MyHomePageState extends State<MyHomePage>{
     });
   }
   showWelcomePage(){
-    DataUtils.checkLogin().then((res){
+    /*DataUtils.checkLogin().then((res){
       bool haslogin = false;
       if (res) {
         print('already log in');
@@ -65,7 +68,15 @@ class MyHomePageState extends State<MyHomePage>{
       setState(() {
         _hasLogin = haslogin;
       });
-    });
+    });*/
+    if (_isLoading) {
+      return Container(
+        color: Color(0xfff4f4f4),
+        child: Center(
+          child: SpinKitPouringHourglass(color: Colors.white),
+        ),
+      );
+    }else
     if (_hasLogin){
       return BottomNavigationWidget();
       //_hasLogin = true; // 占位
