@@ -4,7 +4,7 @@ import 'fourth_page.dart';
 import 'quiz_brain.dart';
 import 'package:flutter/cupertino.dart';
 import 'third_page.dart';
-
+import '../main.dart';
 QuizBrain quizBrain = QuizBrain();
 
 class Quizzler extends StatelessWidget {
@@ -22,7 +22,7 @@ class Quizzler extends StatelessWidget {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: QuizPage(),
+          body: QuizPage(pageContext: context,),
         ),
       ),
     );
@@ -30,15 +30,19 @@ class Quizzler extends StatelessWidget {
 }
 
 class QuizPage extends StatefulWidget {
+  BuildContext pageContext;
+  QuizPage({this.pageContext});
+
   @override
-  _QuizPageState createState() => _QuizPageState();
+  _QuizPageState createState() => _QuizPageState(pageContext: pageContext);
 }
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
   bool overlayShouldBeVisible = false;
   bool isCorrect;
-
+  BuildContext pageContext;
+  _QuizPageState({this.pageContext});
   @override
   void initState() {
     super.initState();
@@ -202,9 +206,12 @@ class _QuizPageState extends State<QuizPage> {
                   () {
                 if (quizBrain.isFinished()) {
                   quizBrain.reset();
-                  Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder:
-                      (BuildContext context) => new ScorePage()),
-                          (Route route) => route == null);
+
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder:
+                      (BuildContext context) => new ScorePage(pageContext:pageContext)),//todo:
+                      );
                   return;
                 }
                 quizBrain.nextQuestion();
