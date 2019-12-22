@@ -235,6 +235,27 @@ class _SignUpPageState extends State<SignUpPage>{
                   _password = value;
                 }
             ),
+
+            new Container(
+                /*decoration: BoxDecoration(
+                  border: new Border.all(width: 0.5),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.elliptical(4, 4),bottom: Radius.elliptical(4, 4)
+                  )
+                ),*/
+
+                child:DropdownButton(
+                items: dropdownItems(),
+                onChanged: (T){
+                  setState(() {
+                    _sex = T;
+                  });
+                },
+                  hint: Text('sex'),
+                  isDense: false,
+                  value: _sex,
+                  underline: Container(),
+            )),
           ],
         ),
       ),
@@ -311,5 +332,19 @@ class _SignUpPageState extends State<SignUpPage>{
         return BottomNavigationWidget;
     });*/
     return FinalPage;
+  }
+  List<DropdownMenuItem> dropdownItems(){
+    List<DropdownMenuItem> list = new List();
+    DropdownMenuItem dropdownMenuItem1 = DropdownMenuItem(
+        child: new Text('SEX                                                M'),
+      value:'M'
+    );
+    list.add(dropdownMenuItem1);
+    DropdownMenuItem dropdownMenuItem2 = DropdownMenuItem(
+        child: new Text('SEX                                                F'),
+        value:'F'
+    );
+    list.add(dropdownMenuItem2);
+    return list;
   }
 }

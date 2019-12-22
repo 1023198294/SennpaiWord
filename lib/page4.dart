@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:flutter_app/page4/feedback.dart';
+import 'package:flutter_app/utils/data_utils.dart';
 class MyPageWidget extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -10,6 +11,13 @@ class MyPageWidget extends StatefulWidget{
 }
 
 class MyPageWidgetState extends State<MyPageWidget>{
+  String username;
+  String useremail;
+  @override
+  void initState() {
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

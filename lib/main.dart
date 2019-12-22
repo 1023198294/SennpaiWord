@@ -121,6 +121,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     /*
     返回一个脚手架，里面包含两个属性，一个是底部导航栏，另一个就是主体内容
      */
+    
     return new Scaffold(
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

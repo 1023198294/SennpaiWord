@@ -31,8 +31,6 @@ class DataUtils{
     return if_login;
   }
   static Future doSignUp(Map<String,dynamic> params) async{
-
-    final prefs = await SharedPreferences.getInstance();
     var response = await NetUtils.post(Api.DO_SIGNUP, params);
     return response['data'];
     //await prefs.setBool('if_login', true);
@@ -66,17 +64,16 @@ class DataUtils{
     var response = await NetUtils.post(Api.GET_INFO_USER+'/plan/'+uid.toString(), params);
     return response['data'];
   }
-  static Future postFeedBack(Map<String,dynamic> params,int uid) async{
+  static Future postFeedBack(Map<String,dynamic> params) async{
     var response = await NetUtils.post(Api.POST_FEEDBACK, params);
     return response['data'];
   }
-
-
 
   static Future doTestApi(Map<String,dynamic> params)async{
     var response = await NetUtils.post(Api.Test_API+'/17341059', params);
     return response['data'];
   }
+
 }
 
 
