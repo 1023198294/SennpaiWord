@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/page4/change_info.dart';
 import 'package:share/share.dart';
 import 'package:flutter_app/page4/feedback.dart';
 import 'package:flutter_app/utils/data_utils.dart';
@@ -61,14 +62,16 @@ class MyPageWidgetState extends State<MyPageWidget>{
             new Divider(),
             ListTile(
               leading: Icon(
-                Icons.account_box,
+                Icons.build,
                 size:27.0,
               ),
               title: Text(
-                  '我的信息'
+                  '修改信息'
               ),
               onTap: (){
-                print('我的信息');
+                print('修改信息');
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=>ChangeInfoPage()));
               },
             ),
             new Divider(),
