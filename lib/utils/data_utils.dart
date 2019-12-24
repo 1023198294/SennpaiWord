@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/api/api.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/utils/net_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zefyr/zefyr.dart';
 class DataUtils{
 
   static Future doLogin(Map<String,dynamic> params) async{
@@ -13,7 +19,6 @@ class DataUtils{
       UserInfo userInfo = UserInfo.fromJson(response['data']);
     */
     final prefs = await SharedPreferences.getInstance();
-
     final response = {
       'data': {
         'avatarPic': null,
@@ -74,8 +79,29 @@ class DataUtils{
     return response['data'];
   }
 
-}
+  //---------------------------------------------------------------------------------------------------
 
+  static String encodeBase64(String data){
+    var content = utf8.encode(data);
+    var digest = base64Encode(content);
+    return digest;
+  }
+  static String decodeBase64(String data){
+    return String.fromCharCodes(base64Decode(data));
+  }
+  static Future image2Base64(var path)async{
+    File file = path;
+    List<int> imageBytes = await file.readAsBytes();
+    return base64Encode(imageBytes);
+  }
+
+  static Future base642Image(String base64Txt) async {
+    Uint8List decodeTxt = base64.decode(base64Txt);
+    return Image.memory(decodeTxt, width:100,fit: BoxFit.fitWidth, gaplessPlayback:true);//防止重绘
+  }
+
+
+}
 
 
 String _encode(Object object) =>
