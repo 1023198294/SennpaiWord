@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/page4/change_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:share/share.dart';
 import 'package:flutter_app/page4/feedback.dart';
+import 'package:flutter_app/page4/select_list.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 class MyPageWidget extends StatefulWidget{
   @override
@@ -31,11 +33,12 @@ class MyPageWidgetState extends State<MyPageWidget>{
         ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('Tadokoro Kouji'),
+              accountName: Text(userInfoData.transdata.username),
               accountEmail: Container(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Text(
-                  '1145141919@810.com',style: TextStyle(fontSize: 28),
+                  userInfoData.transdata.email
+                  ,style: TextStyle(fontSize: 28),
                 ),
               ),
               decoration: BoxDecoration(
@@ -57,7 +60,9 @@ class MyPageWidgetState extends State<MyPageWidget>{
               ),
               onTap: (){
                 print('词表选择');
-              },
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=>SelectListPage()));
+                },
             ),
             new Divider(),
             ListTile(

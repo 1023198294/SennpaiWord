@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/login/login.dart';
+import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'page1.dart';
@@ -36,8 +38,11 @@ class MyHomePageState extends State<MyHomePage>{
   @override
   void initState(){
     super.initState();
+    UserInfo init_info = UserInfo();
+    userInfoData.transdata = init_info;
     DataUtils.TestLogOut().then((res){}); //仅供测试
     DataUtils.checkLogin().then((haslogin){
+      //print(haslogin);
       if (haslogin == true){
         print('has login');
         setState(() {
@@ -134,7 +139,11 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               ),
               title: new Text(
                 '首页',
-              )),
+                style: TextStyle(
+                  color:Colors.black
+                  )
+              )
+          ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.event_note,
@@ -143,6 +152,10 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               ),
               title: new Text(
                 '记录',
+
+              style: TextStyle(
+              color:Colors.black
+              )
               )),
           BottomNavigationBarItem(
               icon: Icon(
@@ -152,6 +165,9 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               ),
               title: new Text(
                 '可视化',
+    style: TextStyle(
+    color:Colors.black
+    )
               )),
           BottomNavigationBarItem(
               icon: Icon(
@@ -160,6 +176,9 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               ),
               title: new Text(
                 '我的',
+    style: TextStyle(
+    color:Colors.black
+    )
               )),
         ],
         //这是底部导航栏自带的位标属性，表示底部导航栏当前处于哪个导航标签。给他一个初始值0，也就是默认第一个标签页面。

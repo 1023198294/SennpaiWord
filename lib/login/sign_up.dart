@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/login/login.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -236,26 +237,7 @@ class _SignUpPageState extends State<SignUpPage>{
                 }
             ),
 
-            new Container(
-                /*decoration: BoxDecoration(
-                  border: new Border.all(width: 0.5),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.elliptical(4, 4),bottom: Radius.elliptical(4, 4)
-                  )
-                ),*/
 
-                child:DropdownButton(
-                items: dropdownItems(),
-                onChanged: (T){
-                  setState(() {
-                    _sex = T;
-                  });
-                },
-                  hint: Text('sex'),
-                  isDense: false,
-                  value: _sex,
-                  underline: Container(),
-            )),
           ],
         ),
       ),
@@ -282,15 +264,31 @@ class _SignUpPageState extends State<SignUpPage>{
             setState(() {
               isLoading = true;
             });
-            DataUtils.doSignUp({
-              'username':_username,
-              'email':_email,
-              'pnumber':_pnumber,
-              'password':_password
-            }).then((userResult){
-              Navigator.of(context).pushAndRemoveUntil(
+            DataUtils.doSignUp(
+                {
+                  'data':{
+              'Uname':_username,
+              'Mail':_email,
+              'Pnumber':_pnumber,
+              'PW':_password
+              }}
+            ).then((userResult){
+              print(userResult);
+              if(userResult == ''){
+                print('sign in error!');
+              }else{
+                setState(() {
+                  userInfoData.transdata.userid = userResult;
+                  userInfoData.transdata.username =_username;
+                  userInfoData.transdata.password = _password;
+                  userInfoData.transdata.email = _email;
+                  userInfoData.transdata.pnumber = _pnumber;
+                  userInfoData.transdata.haslogin = true;
+                });
+                Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
-              );//directly to the home page
+              );
+              }//directly to the home page
             });
           },
         )

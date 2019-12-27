@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -172,13 +173,26 @@ class _LoginPageState extends State<LoginPage>{
               {
                 'data':{
                   'type':1,
-                  'username':_username,
-                  'password':_password
+                  'info':_username,
+                  'PW':_password
                 }
           }).then((userResult){
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
-            );//directly to the home page
+            if (userResult != '') {
+              setState(() {
+                print(userResult);
+                userInfoData.transdata.haslogin = true;
+                userInfoData.transdata.username = userResult['Uname'];
+                print(userResult['Uname']);
+                userInfoData.transdata.email = userResult['Mail'];
+                userInfoData.transdata.userid = userResult['UID'];
+                userInfoData.transdata.pnumber = userResult['Pnumber'];
+              });
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (context) => BottomNavigationWidget()), (
+                  route) => route == null
+              ); //directly to the home page
+            }
           });
           },
       )

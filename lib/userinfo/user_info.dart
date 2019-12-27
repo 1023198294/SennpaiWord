@@ -1,18 +1,19 @@
 var availableList = ['CET4','CET6','TOEFL','GRE','IETLS'];
 class UserInfo{
-  int userid; //default 0
+  String userid; //default 0
   String username; //default 'tadokoro kouji'
   String password ; // default none
   String avatarpic ; // default '0'
   String email ;//default '1145141919@810.com'
+  String pnumber;
   String sex ;//default 'M'
   String wordlist ;//default 'None'
   String education;//default 'Undergraduate'
   bool haslogin ;//default false
   var plan;
-  UserInfo({this.userid=0,this.username='tadokoro kouji',this.password='',this.avatarpic='0',this.email='1145141919@810.com',this.sex='U',this.wordlist='None',this.education='Undergraduate',this.haslogin=false});
+  UserInfo({this.userid='0',this.username='tadokoro kouji',this.password='',this.avatarpic='0',this.email='1145141919@810.com',this.pnumber='11451419198',this.sex='U',this.wordlist='None',this.education='Undergraduate',this.haslogin=false});
   factory UserInfo.fromJson(Map<String,dynamic> json){
-    int userId = json['userid'];
+    String userId = json['userid'];
     String userName = json['username'];
     if (json['username'] != null){
       userName = json['username'];
@@ -38,6 +39,12 @@ class UserInfo{
       email = json['email'];
     }else{
       email = '0';
+    }
+    String pnumber;
+    if (json['pnumber'] != null){
+      pnumber = json['pnumber'];
+    }else{
+      pnumber = '11451419198';
     }
     String sex;
     if (json['sex'] != null){
@@ -65,6 +72,7 @@ class UserInfo{
       password: passWord,
       avatarpic:avatarPic ,
       email: email,
+      pnumber: pnumber,
       sex: sex,
       wordlist:wordList ,
       education: education,

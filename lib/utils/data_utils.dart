@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/api/api.dart';
@@ -14,25 +15,21 @@ import 'package:zefyr/zefyr.dart';
 class DataUtils{
 
   static Future doLogin(Map<String,dynamic> params) async{
-    /*
+
       var response = await NetUtils.post(Api.DO_SIGNIN, params);
-      UserInfo userInfo = UserInfo.fromJson(response['data']);
-    */
-    final prefs = await SharedPreferences.getInstance();
-    final response = {
-      'data': {
-        'avatarPic': null,
-        'userid': 114514,
-        'username': 'tadokoro',
-      }
-    };//just for test
-    await prefs.setBool('if_login', true);
-    return response;
+    //final prefs = await SharedPreferences.getInstance();
+    //await prefs.setBool('if_login', true);
+
+    return response['data'];
   }
   static Future checkLogin() async{
 
-    final prefs = await SharedPreferences.getInstance();
+    /*final prefs = await SharedPreferences.getInstance();
     var if_login = prefs.getBool('if_login');
+    return if_login;*/
+    var if_login = userInfoData.transdata.haslogin;
+    if (if_login == null)
+      return false;
     return if_login;
   }
   static Future doSignUp(Map<String,dynamic> params) async{
