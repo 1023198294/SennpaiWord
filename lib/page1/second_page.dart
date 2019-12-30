@@ -5,11 +5,29 @@ import 'quiz_brain.dart';
 import 'package:flutter/cupertino.dart';
 import 'third_page.dart';
 import '../main.dart';
+import 'package:flutter_app/utils/data_utils.dart';
+import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
+
 QuizBrain quizBrain = QuizBrain();
 
 class Quizzler extends StatelessWidget {
+  var info = userInfoData.transdata;
+
   @override
   Widget build(BuildContext context) {
+
+    DataUtils.getWordList(
+      {},
+      info.userid,
+      0,
+    ).then((overviewResult){
+//      print('here');
+
+
+    }
+    );
+
     return MaterialApp(
       home: Container(
         decoration: new BoxDecoration(
@@ -202,7 +220,7 @@ class _QuizPageState extends State<QuizPage> {
             ],
           ),
           overlayShouldBeVisible == true ? new CorrectWrongOverlay(
-              isCorrect,
+              isCorrect,quizBrain,
                   () {
                 if (quizBrain.isFinished()) {
                   quizBrain.reset();

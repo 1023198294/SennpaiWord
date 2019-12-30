@@ -1,12 +1,14 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'quiz_brain.dart';
 
 class CorrectWrongOverlay extends StatefulWidget {
-
   final bool _isCorrect;
+  final QuizBrain _quizBrain;
   final VoidCallback _onTap;
 
-  CorrectWrongOverlay(this._isCorrect, this._onTap);
+  CorrectWrongOverlay(this._isCorrect,this._quizBrain, this._onTap );
 
   @override
   State createState() => new CorrectWrongOverlayState();
@@ -15,14 +17,17 @@ class CorrectWrongOverlay extends StatefulWidget {
 class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTickerProviderStateMixin {
 
   Animation<double> _iconAnimation;
+  Animation<double> _iconAnimation1;
   AnimationController _iconAnimationController;
 
   @override
   void initState() {
     super.initState();
-    _iconAnimationController = new AnimationController(duration: new Duration(seconds: 2), vsync: this);
+    _iconAnimationController = new AnimationController(duration: new Duration(seconds: 1), vsync: this);
     _iconAnimation = new CurvedAnimation(parent: _iconAnimationController, curve: Curves.elasticOut);
     _iconAnimation.addListener(() => this.setState(() {}));
+    _iconAnimation1 = new CurvedAnimation(parent: _iconAnimationController, curve: Curves.easeOut);
+    _iconAnimation1.addListener(() => this.setState(() {}));
     _iconAnimationController.forward();
   }
 
@@ -38,24 +43,68 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
       color: Colors.black54,
       child: new InkWell(
         onTap: () => widget._onTap(),
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Container(
-              decoration: new BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle
+        child:
+        new BlurRectWidget(
+          new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Transform.translate(
+                offset: Offset(0,-_iconAnimation1.value*280),
+                child: new Column(
+                  children: <Widget>[
+                    new Container(
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle
+                      ),
+                      child: new Transform.rotate(
+                        angle: _iconAnimation.value * 2 * pi,
+                        child: new Icon(widget._isCorrect == true ? Icons.done : Icons.clear, size: _iconAnimation.value * 80.0,),
+                      ),
+                    ),
+                    new Padding(
+                      padding: new EdgeInsets.only(bottom: 2.0),
+                    ),
+                    new Text(widget._isCorrect == true ? "Correct!" : "Wrong!", style: new TextStyle(color: Colors.white, fontSize: 30.0),)
+                  ],
+                ),
               ),
-              child: new Transform.rotate(
-                angle: _iconAnimation.value * 2 * pi,
-                child: new Icon(widget._isCorrect == true ? Icons.done : Icons.clear, size: _iconAnimation.value * 80.0,),
+              new Transform.translate(
+                offset: Offset(0,-_iconAnimation1.value*150),
+                child: new Text('\n\n\n\n\n'+ widget._quizBrain.getExplanation(), style: new TextStyle(color: Colors.white, fontSize: 18.0),)
               ),
-            ),
-            new Padding(
-              padding: new EdgeInsets.only(bottom: 2.0),
-            ),
-            new Text(widget._isCorrect == true ? "Correct!" : "Wrong!", style: new TextStyle(color: Colors.white, fontSize: 30.0),)
-          ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BlurRectWidget extends StatelessWidget {
+  final Widget _widget;
+  double _padding = 10;
+
+  BlurRectWidget(this._widget, {double padding = 0}) {
+    if (padding != 0) this._padding = padding;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 8,
+            sigmaY: 8,
+          ),
+          child: Container(
+            color: Colors.white10,
+            padding: EdgeInsets.all(_padding),
+            child: _widget,
+          ),
         ),
       ),
     );

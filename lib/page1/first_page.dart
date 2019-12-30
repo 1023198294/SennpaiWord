@@ -1,19 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/data_utils.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'second_page.dart';
+import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 
-class LoginScreen2 extends StatelessWidget {
-  final Color backgroundColor1;
-  final Color backgroundColor2;
-  final Color highlightColor;
-  final Color foregroundColor;
-  final AssetImage logo;
+class LoginScreen2 extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState(){
+    return new _FirstPageState();
+  }
+}
 
-  LoginScreen2({Key k, this.backgroundColor1, this.backgroundColor2, this.highlightColor, this.foregroundColor, this.logo});
+class _FirstPageState extends State<LoginScreen2> {
+  final Color backgroundColor1=Color(0xFF444152);
+  final Color backgroundColor2=Color(0xFF6f6c7d);
+  final Color foregroundColor=Colors.white;
+
+  var _planList;
+  var _Vname='';
+  var _totalRecited=0;
+  var _remained=996;
+  var _todayslearn=1;
+  var _todaysreview=0;
+  var _continue;
+  var _updated;
+
+  var info = userInfoData.transdata;
+
+
+  @override
+  void initState() {
+
+//    DataUtils.getInfoUserOverview(
+//      {},
+//      info.userid,
+//      'overview',
+//    ).then((overviewResult){
+////      print('here');
+//      setState(() {
+//        print(overviewResult);
+//        _Vname = overviewResult['Vname'];
+//        _totalRecited = overviewResult['alreadyRecite'];
+//        _remained = overviewResult['remained'];
+//        _todayslearn = overviewResult['today learn'];
+//        _todaysreview = overviewResult['today review'];
+//        _continue = overviewResult['continuous'];
+//      });
+//    }
+//    );
+//    DataUtils.getPlanList({},).then((planListResult){
+////      print('here');
+//      setState(() {
+//        _planList = planListResult;
+//      });
+//      print(_planList);
+//      print('get plan list ok');
+//    }
+//    );
+    _updated = false;
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+    if (_updated == false) {
+      DataUtils.getInfoUserOverview(
+        {},
+        info.userid,
+        'overview',
+      ).then((overviewResult){
+//      print('here');
+        setState(() {
+          print(overviewResult);
+          print('get overview ok');
+          _Vname = overviewResult['Vname'];
+          _totalRecited = overviewResult['alreadyRecite'];
+          _remained = overviewResult['remained'];
+          _todayslearn = overviewResult['today learn'];
+          _todaysreview = overviewResult['today review'];
+          _continue = overviewResult['continuous'];
+        });
+      }
+      );
+
+      DataUtils.getPlanList({},).then((planListResult){
+//      print('here');
+        setState(() {
+          _planList = planListResult;
+        });
+        print(_planList);
+        print('get plan list ok');
+      }
+      );
+
+      _updated = true;
+
+    }
+
     return Container(
       decoration: new BoxDecoration(
         gradient: new LinearGradient(
@@ -42,14 +129,14 @@ class LoginScreen2 extends StatelessWidget {
                     height: 144.0,
                     width: 144.0,
                     child: LiquidCircularProgressIndicator(
-                      value: 50/60, //当前进度 0-1
+                      value: _todayslearn/_todayslearn, //当前进度 0-1
                       valueColor: AlwaysStoppedAnimation(Colors.grey[50]), // 进度值的颜色.
                       backgroundColor: this.backgroundColor1, // 背景颜色.
                       borderColor: this.backgroundColor1,//边框颜色
                       borderWidth: 3.0,
                       direction: Axis.vertical,
                       center: Text(
-                        "50",
+                        (_todayslearn-0).toString(),
                         style: TextStyle(fontSize: 48,color: this.backgroundColor2),
                       ),
                     ),
@@ -77,7 +164,7 @@ class LoginScreen2 extends StatelessWidget {
                   new Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: new Text(
-                      "今日需复习 10",
+                      "今日需复习 " + _todaysreview.toString(),
                       style: TextStyle(color: this.foregroundColor),
                     ),
                   ),
@@ -104,9 +191,10 @@ class LoginScreen2 extends StatelessWidget {
                             style: TextStyle(color: this.foregroundColor),
                           ),
                           new Text(
-                            "CET4 60/天",
+                            
+                            cutString(_Vname)+' '+_todayslearn.toString()+"/天",
                             textAlign: TextAlign.left,
-                            style: TextStyle(color: this.foregroundColor),
+                            style: TextStyle(color: this.foregroundColor,fontSize: 12),
                           ),
                         ]
                     ),
@@ -125,7 +213,7 @@ class LoginScreen2 extends StatelessWidget {
                     child: new Column(
                         children: <Widget>[
                           new Text(
-                            "128/526",
+                            _totalRecited.toString()+'/'+(_remained+_totalRecited).toString(),
                             textAlign: TextAlign.right,
 
                             style: TextStyle(fontSize: 18, color: this.foregroundColor),
@@ -148,7 +236,7 @@ class LoginScreen2 extends StatelessWidget {
                 new LinearPercentIndicator(
                   width: 280,
                   lineHeight: 12.0,
-                  percent: 128/526,
+                  percent: _totalRecited/(_remained+_totalRecited),
                   backgroundColor: this.backgroundColor2,
                   progressColor: Colors.grey[50],
                 ),
@@ -198,9 +286,75 @@ class LoginScreen2 extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10.0, horizontal: 10.0),
                     color: Colors.transparent,
-                    onPressed: () => {},
+                    onPressed: () => { // ignore: sdk_version_set_literal
+                    showDialog(
+                      context: context,
+                      builder: (_) => SimpleDialog(
+                          title: Text("计划选择"),
+                          titlePadding: EdgeInsets.all(10),
+                          backgroundColor: Colors.white,
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(6))),
+                          children: <Widget>[
+                            ListTile(
+                              title: Center(child: Text(_planList[0][1].toString()),),
+                              onTap: (){
+                                DataUtils.postPlan(
+                                    {'data':{'Vname':_planList[0][1].toString()}},info.userid
+                                ).then((res){
+                                  setState(() {
+                                    print(res);
+                                    _updated = false;
+                                    _Vname = _planList[0][1].toString();
+                                  });
+                                });
+//                                Navigator.pop(_);
+                              },
+                            ),
+                            ListTile(
+                              title: Center(child: Text(_planList[1][1].toString()),),
+                              onTap: (){
+                                DataUtils.postPlan(
+                                    {'data':{'Vname':_planList[1][1].toString()}},info.userid
+                                ).then((res){
+                                  setState(() {
+                                    print(res);
+                                    _updated = false;
+                                    _Vname = _planList[1][1].toString();
+                                  });
+                                });
+//                                Navigator.pop(_);
+                              },
+                            ),
+                            ListTile(
+                              title: Center(child: Text(_planList[2][1].toString()),),
+                              onTap: (){
+                                DataUtils.postPlan(
+                                    {'data':{'Vname':_planList[2][1].toString()}},info.userid
+                                ).then((res){
+                                  setState(() {
+                                    print(res);
+                                    _updated = false;
+                                    _Vname = _planList[2][1].toString();
+                                  });
+                                });
+//                                Navigator.pop(_);
+                              },
+
+                            ),
+                            ListTile(
+                              title: Center(child: Text("Close"),),
+                            onTap: (){
+                              Navigator.pop(_);
+                            },
+                            ),
+                          ],
+                        )),
+
+                    },
                     child: Text(
-                      "单词列表(optional)",
+                      "计划选择",
                       style: TextStyle(color: this.foregroundColor.withOpacity(0.5)),
                     ),
                   ),
@@ -270,4 +424,10 @@ class SecondScreen extends StatelessWidget {
 //      ),
     );
   }
+}
+
+String cutString(String str) {
+  if (str.length > 7)
+    str=str.substring(0,7)+'...';
+  return str;
 }

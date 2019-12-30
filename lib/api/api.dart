@@ -16,6 +16,8 @@ class Api {
 
   static const String POST_FEEDBACK = BASE_URL + '/feedback';
 
+  static const String POST_RECORD = BASE_URL + '/record';
+
 
   static const String Test_API = BASE_URL +'/test';
   void test(){

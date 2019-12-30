@@ -11,9 +11,9 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/utils/net_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zefyr/zefyr.dart';
+//import 'package:zefyr/zefyr.dart';
 class DataUtils{
-
+// ----------login page-------------
   static Future doLogin(Map<String,dynamic> params) async{
 
       var response = await NetUtils.post(Api.DO_SIGNIN, params);
@@ -48,33 +48,70 @@ class DataUtils{
     prefs.setBool('if_login',false);
     return response['data'];
   }
-  static Future getInfoUserOverview(Map<String,dynamic> params,int uid,String infotype) async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid.toString()+'/overview', params);
+
+//-----------page1first---------
+  static Future getInfoUserOverview(Map<String,dynamic> params,String uid,String infotype) async{
+//    print(uid);
+    var response = await NetUtils.get(Api.GET_INFO_USER+'/'+uid+'/overview', params);
+//    print('overview:');
+//    print(response);
+    if (response['message'] == 0)
+      return response['data'];
+  }
+
+//  static Future getInfoUserTest(Map<String,dynamic> params,String uid,int timestamp) async{
+//    var response = await NetUtils.get(Api.GET_INFO_USER+'/'+uid+'/'+timestamp.toString(), params);
+//    return response['data'];
+//  }
+//-------------page1second---------------
+
+  static Future getWordList(Map<String,dynamic> params,String uid,int counting) async{
+    var url = Api.GET_PLAN+'/'+uid+'/'+counting.toString();
+    var response = await NetUtils.get(url, params);
+    print(url);
     return response['data'];
   }
 
-  static Future getInfoUserTest(Map<String,dynamic> params,int uid,int timestamp) async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid.toString()+'/'+timestamp.toString(), params);
+  static Future getInfoWord(Map<String,dynamic> params,String wid) async{
+    var response = await NetUtils.get(Api.GET_INFO_USER+'/word/'+wid, params);
     return response['data'];
   }
 
-  static Future getInfoWord(Map<String,dynamic> params,int wid) async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/word/'+wid.toString(), params);
+  static Future postRecord(Map<String,dynamic> params, String uid,) async{
+    var url = Api.POST_RECORD+'/'+uid;
+//    print(params);
+    var response = await NetUtils.post(url, params);
+    print(url);
     return response['data'];
   }
-  static Future getPlan(Map<String,dynamic> params,int uid) async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/plan/'+uid.toString(), params);
+
+  //---------changebooklist--------------
+
+  static Future getPlanList(Map<String,dynamic> params) async{
+    var response = await NetUtils.get(Api.GET_PLAN, params);
     return response['data'];
   }
+  static Future postPlan(Map<String,dynamic> params, String uid,) async{
+    print(Api.GET_INFO_USER+'/'+uid+'/plan');
+//    print(params);
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid+'/plan', params);
+    return response['data'];
+  }
+
+
+//  ---------page4-----------
   static Future postFeedBack(Map<String,dynamic> params) async{
     var response = await NetUtils.post(Api.POST_FEEDBACK, params);
     return response['data'];
   }
 
-  static Future doTestApi(Map<String,dynamic> params)async{
-    var response = await NetUtils.post(Api.Test_API+'/17341059', params);
-    return response['data'];
-  }
+//  static Future doTestApi(Map<String,dynamic> params)async{
+//    var response = await NetUtils.post(Api.Test_API+'/17341059', params);
+//    return response['data'];
+//  }
+
+
+
 
   //---------------------------------------------------------------------------------------------------
 
