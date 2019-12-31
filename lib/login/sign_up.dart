@@ -277,6 +277,7 @@ class _SignUpPageState extends State<SignUpPage>{
               if(userResult == ''){
                 print('sign in error!');
               }else{
+                //DataUtils.image2Base64(userInfoData.transdata.defaultpic).then((res){});
                 setState(() {
                   userInfoData.transdata.userid = userResult;
                   userInfoData.transdata.username =_username;

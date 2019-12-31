@@ -11,26 +11,26 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/utils/net_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 //import 'package:zefyr/zefyr.dart';
 class DataUtils{
 // ----------login page-------------
   static Future doLogin(Map<String,dynamic> params) async{
 
       var response = await NetUtils.post(Api.DO_SIGNIN, params);
-    //final prefs = await SharedPreferences.getInstance();
-    //await prefs.setBool('if_login', true);
-
+      //final prefs = await SharedPreferences.getInstance();
+      //await prefs.setBool('if_login', true);
     return response['data'];
   }
   static Future checkLogin() async{
 
-    /*final prefs = await SharedPreferences.getInstance();
-    var if_login = prefs.getBool('if_login');
-    return if_login;*/
-    var if_login = userInfoData.transdata.haslogin;
-    if (if_login == null)
+    final prefs = await SharedPreferences.getInstance();
+    var if_login1 = prefs.getBool('if_login');
+    //return if_login;
+    var if_login2 = userInfoData.transdata.haslogin;
+    if (if_login2 == null)
       return false;
-    return if_login;
+    return if_login1 || if_login2;
   }
   static Future doSignUp(Map<String,dynamic> params) async{
     var response = await NetUtils.post(Api.DO_SIGNUP, params);
@@ -105,15 +105,15 @@ class DataUtils{
     return response['data'];
   }
 
-//  static Future doTestApi(Map<String,dynamic> params)async{
-//    var response = await NetUtils.post(Api.Test_API+'/17341059', params);
-//    return response['data'];
-//  }
+  static Future doTestApi(Map<String,dynamic> params)async{
+    var response = await NetUtils.post(Api.Test_API+'/17341059', params);
+    return response['data'];
+  }
 
 
 
 
-  //---------------------------------------------------------------------------------------------------
+  //----------general---------------------------------------------------------------------------------
 
   static String encodeBase64(String data){
     var content = utf8.encode(data);
@@ -128,14 +128,34 @@ class DataUtils{
     List<int> imageBytes = await file.readAsBytes();
     return base64Encode(imageBytes);
   }
-
   static Future base642Image(String base64Txt) async {
     Uint8List decodeTxt = base64.decode(base64Txt);
-    return Image.memory(decodeTxt, width:100,fit: BoxFit.fitWidth, gaplessPlayback:true);//防止重绘
+    //return Image.memory(decodeTxt, width:100,fit: BoxFit.fitWidth, gaplessPlayback:true);//防止重绘
+    return MemoryImage(decodeTxt);
   }
-
-
+  static Future imageFile2Base64(File file) async {
+    List<int> imageBytes = await file.readAsBytes();
+    return base64Encode(imageBytes);
+  }
+  static Future getUserInfo() async{
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',{});
+    return response['data'];
+    }
+  static Future postUserInfo() async{
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',
+      {
+        'Uname':userInfoData.transdata.username,
+        'Avatar':userInfoData.transdata.avatarpic,
+        'Sex':'M',
+        'Education':'',
+        'Grade':''
+      }
+    );
+    print('post info data');
+    return response['data'];
+  }
 }
+
 
 
 String _encode(Object object) =>

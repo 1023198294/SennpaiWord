@@ -270,7 +270,7 @@ class _LoginPageState extends State<LoginPage>{
             ),
             //忘记密码按钮，点击执行事件
             onPressed: (){
-              DataUtils.doTestApi(
+              /*DataUtils.doTestApi(
                   {
                   'data':{
                   'username':'hyj0',
@@ -279,7 +279,7 @@ class _LoginPageState extends State<LoginPage>{
                 }
               }).then((res){
                 print(res);
-              });
+              });*/
             },
           ),
           FlatButton(

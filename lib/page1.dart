@@ -18,10 +18,10 @@ class HomePageWidgetState extends State<HomePageWidget>{
 //      ),
       body: Container(
         child: LoginScreen2(
-          backgroundColor1: Color(0xFF444152),
-          backgroundColor2: Color(0xFF6f6c7d),
-          highlightColor: Color(0xfff65aa3),
-          foregroundColor: Colors.white,
+          //backgroundColor1: Color(0xFF444152),
+          //backgroundColor2: Color(0xFF6f6c7d),
+          //highlightColor: Color(0xfff65aa3),
+          //foregroundColor: Colors.white,
 //        logo: new AssetImage("assets/images/full-bloom.png"),
         ),
       ),

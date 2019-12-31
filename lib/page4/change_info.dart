@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,9 +19,16 @@ class ChangeInfoPageState extends State<ChangeInfoPage>{
   var _imgPath;
   var _img;
   var _base64Txt='';
+  var _username;
+  var _userId;
+  TextEditingController _usernameController  = TextEditingController();
   @override
   void initState() {
     super.initState();
+    setState(() {
+      _username = userInfoData.transdata.username;
+      _userId = userInfoData.transdata.userid;
+    });
   }
   @override
   void dispose() {
@@ -28,20 +36,27 @@ class ChangeInfoPageState extends State<ChangeInfoPage>{
   }
     @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
         child:Scaffold(
           appBar: AppBar(
             title: Text('修改信息'),
           ),
-          body: Column(
-            children:[
-              _imageView(_imgPath),
-              RaisedButton(
-            onPressed: _openGallery,
-            child: Text('选择图片'),
-            ),
-        ],
+          body:
+          Column(
+            children: <Widget>[
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: '用户名',
+                  labelStyle: TextStyle(
+                    color: Colors.black
+                  ),
+                  prefixIcon: Icon(Icons.person,color: Colors.black,)
+                ),
+                onChanged: (s) => _username = s,
+                controller: _usernameController,
+              )
+            ],
           )
         ),
 
@@ -69,7 +84,6 @@ class ChangeInfoPageState extends State<ChangeInfoPage>{
           //print('base64: '+ _base64Txt);
         });
       });
-
       DataUtils.base642Image(_base64Txt).then((res){
         setState(() {
           _img = res;
@@ -81,7 +95,6 @@ class ChangeInfoPageState extends State<ChangeInfoPage>{
           //Text(_base64Txt),
           _img
         ],
-
       );
       //return Image.file(imgPath);
     }

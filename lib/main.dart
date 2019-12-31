@@ -8,7 +8,7 @@ import 'page1.dart';
 import 'page2.dart';
 import 'page3.dart';
 import 'page4.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 void main() {
   runApp(new MyApp());
 }
@@ -38,6 +38,11 @@ class MyHomePageState extends State<MyHomePage>{
   @override
   void initState(){
     super.initState();
+    var permission =  PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
+    print("permission status is " + permission.toString());
+    PermissionHandler().requestPermissions(<PermissionGroup>[
+      PermissionGroup.storage, // 在这里添加需要的权限
+    ]);
     UserInfo init_info = UserInfo();
     userInfoData.transdata = init_info;
     DataUtils.TestLogOut().then((res){}); //仅供测试
@@ -188,8 +193,17 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           //进行状态更新，将系统返回的你点击的标签位标赋予当前位标属性，告诉系统当前要显示的导航标签被用户改变了。
           setState(() {
             _currentIndex = i;
-          //print(_currentIndex);
+            print(_currentIndex);
           });
+          if (i == 3){
+            DataUtils.getUserInfo().then((res){
+              setState(() {
+                print('res is '+res['Avatar']);
+                userInfoData.transdata.avatarpic = res['Avatar'];
+
+              });
+            });
+          }
         },
       ),
     );
