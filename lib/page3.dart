@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'page_vision/pie_chart.dart';
 import 'page_vision/bar_chart.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 class VisualizeWidget extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -17,18 +18,43 @@ class VisualizeWidgetState extends State<VisualizeWidget>{
         title: new Text('可视化'),
       ),
       body: new Center(
-        child: ListView(
-          children: <Widget>[
-            LineChartSample2(),
-            PieChartSample2(),
-            BarChartSample3(),
-          ],
+        child: Container(
+          height: 300,
+          child: new Swiper(
+              layout: SwiperLayout.CUSTOM,
+              customLayoutOption: new CustomLayoutOption(
+                  startIndex: -1,
+                  stateCount: 3
+              ).addRotate([
+                15.0/180,
+                0.0,
+                -15.0/180
+              ]).addTranslate([
+                new Offset(-370.0, -40.0),
+                new Offset(0.0, 0.0),
+                new Offset(370.0, -40.0)
+              ]),
+              itemWidth: 300.0,
+              itemHeight: 300.0,
+              itemBuilder: (context, index) {
+//                return new Image.network(imgs[index],fit: BoxFit.cover,);
+                return new Center(child:imgs[index]);
+
+              },
+              itemCount: imgs.length),
         ),
+//        ListView(
+//          children: <Widget>[
+//            LineChartSample2(),
+//            PieChartSample2(),
+//            BarChartSample3(),
+//          ],
+//        ),
       ),
     );
   }
 }
-
+List <dynamic> imgs=[LineChartSample2(),PieChartSample2(),BarChartSample3()];
 
 class LineChartSample2 extends StatefulWidget {
   @override

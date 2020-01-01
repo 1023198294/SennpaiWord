@@ -83,6 +83,7 @@ class _FirstPageState extends State<LoginScreen2> {
           _todayslearn = overviewResult['today learn'];
           _todaysreview = overviewResult['today review'];
           _continue = overviewResult['continuous'];
+          userInfoData.transdata.plan = _Vname;
         });
       }
       );
@@ -98,7 +99,16 @@ class _FirstPageState extends State<LoginScreen2> {
       );
 
       _updated = true;
-
+      return new Container(
+        decoration: new BoxDecoration(
+        gradient: new LinearGradient(
+          begin: Alignment.centerLeft,
+          end: new Alignment(1.0, 0.0), // 10% of the width, so there are ten blinds.
+          colors: [this.backgroundColor1, this.backgroundColor2], // whitish to gray
+          tileMode: TileMode.repeated, // repeats the gradient over the canvas
+        ),
+      ),
+        height: MediaQuery.of(context).size.height,);
     }
 
     return Container(
@@ -264,6 +274,7 @@ class _FirstPageState extends State<LoginScreen2> {
                         context,
                         new MaterialPageRoute(builder: (context) => new SecondScreen()),
                       );
+
                     },
                     child: Text(
                       "开始学习",
@@ -293,7 +304,7 @@ class _FirstPageState extends State<LoginScreen2> {
                           title: Text("计划选择"),
                           titlePadding: EdgeInsets.all(10),
                           backgroundColor: Colors.white,
-                          elevation: 5,
+                          elevation: 6,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(6))),
                           children: <Widget>[
@@ -337,6 +348,22 @@ class _FirstPageState extends State<LoginScreen2> {
                                     print(res);
                                     _updated = false;
                                     _Vname = _planList[2][1].toString();
+                                  });
+                                });
+//                                Navigator.pop(_);
+                              },
+
+                            ),
+                            ListTile(
+                              title: Center(child: Text(_planList[3][1].toString()),),
+                              onTap: (){
+                                DataUtils.postPlan(
+                                    {'data':{'Vname':_planList[3][1].toString()}},info.userid
+                                ).then((res){
+                                  setState(() {
+                                    print(res);
+                                    _updated = false;
+                                    _Vname = _planList[3][1].toString();
                                   });
                                 });
 //                                Navigator.pop(_);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app/utils/data_utils.dart';
 import 'page_record/quiz.dart';
+import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 
 class RecordPageWidget extends StatefulWidget{
   @override
@@ -13,9 +15,21 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
   Quiz quiz;
   List<WordsRecord> results = records;
   Color c;
+  var info = userInfoData.transdata;
+  dynamic _recordList;
 
   @override
   Widget build(BuildContext context) {
+    DataUtils.getPlanRecord({},info.userid).then((planRecordResult){
+//      print('here');
+//      setState(() {
+        _recordList = planRecordResult;
+//      });
+      print(_recordList.length);
+      print('get reocrd list ok');
+    }
+    );
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('记录'),
@@ -45,7 +59,7 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
                 size:27.0,
               ),
               title: Text(
-                  '已学单词'
+                  '当前词库'
               ),
               onTap: (){
                 Navigator.push(
@@ -67,10 +81,11 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
   Widget questionList() {
     return new Scaffold(
       appBar: AppBar(
-        title: Text('已学单词'),
+        title: Text(userInfoData.transdata.plan),
       ),
       body: ListView.builder(
-        itemCount: results.length,
+//        itemCount: results.length,
+        itemCount: _recordList.length,
         itemBuilder: (context, index) => Card(
           color: Colors.white,
           elevation: 0.0,
@@ -87,7 +102,8 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
                     child: Padding(
                       padding: const EdgeInsets.only(top:12),
                       child: Text(
-                        results[index].word,
+                        _recordList[index][2],
+//                        results[index].word,
                         textAlign:TextAlign.left,
                         style: TextStyle(
                           fontSize: 18.0,
@@ -108,8 +124,10 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
                           FilterChip(
                             backgroundColor: Colors.grey[100],
                             label: Text(
-                              results[index].proficiency,
+                              _recordList[index][4].toString()
+//                              results[index].proficiency,
                             ),
+//                            onPressed: () => {},
                             onSelected: (b) {},
                           )
                         ],
@@ -123,7 +141,9 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
 //            backgroundColor: Colors.grey[100],
 //            child: Text(results[index].word.startsWith("g") ? "G" : "B"),
 //          ),
-            children:[AnswerWidget(results[index].wordInfo),],
+//            children:[AnswerWidget(results[index].wordInfo),],
+            children:[AnswerWidget(_recordList[index][3][0]),],
+
           ),
         ),
       ),
@@ -131,6 +151,14 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
   }
 
 }
+
+//{
+//"result":[(
+//"TID",
+//"WID",
+//"Proficiency"
+//)]
+//}
 
 
 class AnswerWidget extends StatefulWidget {

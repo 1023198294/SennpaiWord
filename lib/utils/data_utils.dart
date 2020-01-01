@@ -99,6 +99,34 @@ class DataUtils{
   }
 
 
+//-----------page3-------------
+  static Future getVisualRecord(Map<String,dynamic> params, String uid) async{
+    var url = Api.POST_RECORD+'/'+uid;
+    var response = await NetUtils.get(url, params);
+    return response['data'];
+  }
+
+//--------------page2----------------
+  static Future getPlanRecord(Map<String,dynamic> params, String uid) async{
+    var url = Api.GET_PLAN+'/'+uid;
+    var response = await NetUtils.get(url, params);
+    return response['data'];
+  }
+
+  static Future postPlanRecord(Map<String,dynamic> params, String uid,) async{
+    var url = Api.GET_PLAN+'/'+uid;
+//    print(params);
+    var response = await NetUtils.post(url, params);
+    return response;
+  }
+
+
+
+
+
+
+
+
 //  ---------page4-----------
   static Future postFeedBack(Map<String,dynamic> params) async{
     var response = await NetUtils.post(Api.POST_FEEDBACK, params);

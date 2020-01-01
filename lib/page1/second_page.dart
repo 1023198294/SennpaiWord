@@ -8,25 +8,14 @@ import '../main.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/userinfo/user_info_data.dart';
-
-QuizBrain quizBrain = QuizBrain();
-
+import 'dart:convert';
+//QuizBrain quizBrain = QuizBrain();
 class Quizzler extends StatelessWidget {
-  var info = userInfoData.transdata;
 
   @override
   Widget build(BuildContext context) {
 
-    DataUtils.getWordList(
-      {},
-      info.userid,
-      0,
-    ).then((overviewResult){
-//      print('here');
 
-
-    }
-    );
 
     return MaterialApp(
       home: Container(
@@ -56,6 +45,19 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  var info = userInfoData.transdata;
+  var _updated = false;
+  String starttime;
+  String endtime;
+
+
+  Worddetail qWord;
+  Worddetail qOpt1;
+  Worddetail qOpt2;
+  Worddetail qOpt3;
+  Worddetail qOpt4;
+  dynamic opts;
+
   List<Icon> scoreKeeper = [];
   bool overlayShouldBeVisible = false;
   bool isCorrect;
@@ -63,11 +65,114 @@ class _QuizPageState extends State<QuizPage> {
   _QuizPageState({this.pageContext});
   @override
   void initState() {
+    starttime =  new DateTime.now().toString();
+    starttime = starttime.replaceRange(10, 11, '-');
+    starttime = starttime.replaceAll(':','-');
+    starttime = starttime.substring(0,19);
+
+
+//      DataUtils.getInfoWord(
+//        {},
+//        userInfoData.quizBrain.getQInfoWid(),
+//      ).then((wordInfoResult1){
+////        print(wordInfoResult);
+//        qWord = wordInfoResult1;
+//        print(qWord);
+//
+//      });
+//
+//      opts = userInfoData.quizBrain.getQInfoOpt();
+//
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[0],
+//      ).then((wordInfoResult2){
+////        print(wordInfoResult);
+//        qOpt1 = wordInfoResult2;
+//        print(qOpt1);
+//      });
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[1],
+//      ).then((wordInfoResult3){
+////        print(wordInfoResult);
+//        qOpt2 = wordInfoResult3;
+//        print(qOpt2);
+//      });
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[2],
+//      ).then((wordInfoResult4){
+////        print(wordInfoResult);
+//        qOpt3 = wordInfoResult4;
+//        print(qOpt3);
+//      });
+//
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[3],
+//      ).then((wordInfoResult){
+////        print(wordInfoResult);
+//        qOpt4 = wordInfoResult;
+//        print(qOpt4);
+//      });
+//      while(qWord == null || qOpt4 == null || qOpt3 == null || qOpt2 == null || qOpt1 == null){}
+//
+
+//    if (_updated == false) {
+//      DataUtils.getWordList(
+//        {},
+//        info.userid,
+//        0,
+//      ).then((wordListResult){
+//        setState(() {
+//          userInfoData.quizBrain.createQInfoBank(wordListResult);
+//          print('create quiz info bank ok');
+//          _updated = true;
+////          qWord = userInfoData.quizBrain.getWord(userInfoData.quizBrain.getQInfoWid());
+////          opts = userInfoData.quizBrain.getQInfoOpt();
+////          qOpt1 = userInfoData.quizBrain.getWord(opts[0]);
+////          qOpt2 = userInfoData.quizBrain.getWord(opts[1]);
+////          qOpt3 = userInfoData.quizBrain.getWord(opts[2]);
+////          qOpt4 = userInfoData.quizBrain.getWord(opts[3]);
+//
+//        });
+//      }
+//      );
+//    }
+//    else {
+//      qWord = userInfoData.quizBrain.getWord(userInfoData.quizBrain.getQInfoWid());
+//      opts = userInfoData.quizBrain.getQInfoOpt();
+//      qOpt1 = userInfoData.quizBrain.getWord(opts[0]);
+//      qOpt2 = userInfoData.quizBrain.getWord(opts[1]);
+//      qOpt3 = userInfoData.quizBrain.getWord(opts[2]);
+//      qOpt4 = userInfoData.quizBrain.getWord(opts[3]);
+//
+//
+//    }
+
+//   while (_updated == false){
+//   }
     super.initState();
   }
 
+  void checkingAnswer(String A) {
+    String Q = userInfoData.quizBrain.getQInfoWid();
+
+    this.setState(() {
+      overlayShouldBeVisible = true;
+      if (Q == A) {
+        isCorrect = true;
+      } else {
+        isCorrect = false;
+      }
+      userInfoData.quizBrain.getQInfo().setCorrectWrong(isCorrect);
+    });
+  }
+
+
   void checkAnswer(String userPickedAnswer) {
-    String correctAnswer = quizBrain.getCorrectAnswer();
+    String correctAnswer = userInfoData.quizBrain.getCorrectAnswer();
 
     this.setState(() {
       overlayShouldBeVisible = true;
@@ -89,7 +194,152 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> ABCD = quizBrain.getABCD();
+    if (_updated == false || userInfoData.quizBrain.getLength() == 0){
+      DataUtils.getWordList(
+        {},
+        info.userid,
+        0,
+      ).then((wordListResult){
+        setState(() {
+          userInfoData.quizBrain.createQInfoBank(wordListResult);
+          print('create quiz info bank ok');
+          _updated = true;
+        });
+      });
+      return new Container();
+    }
+
+
+//    print('inbuild');
+//
+//    DataUtils.getInfoWord(
+//      {},
+//      userInfoData.quizBrain.getQInfoWid(),
+//    ).then((wordInfoResult1){
+////        print(wordInfoResult);
+//      qWord = wordInfoResult1;
+//      print(qWord);
+//
+//    });
+//
+//    opts = userInfoData.quizBrain.getQInfoOpt();
+//
+//    DataUtils.getInfoWord(
+//      {},
+//      opts[0],
+//    ).then((wordInfoResult2){
+////        print(wordInfoResult);
+//      qOpt1 = wordInfoResult2;
+//      print(qOpt1);
+//    });
+//    DataUtils.getInfoWord(
+//      {},
+//      opts[1],
+//    ).then((wordInfoResult3){
+////        print(wordInfoResult);
+//      qOpt2 = wordInfoResult3;
+//      print(qOpt2);
+//    });
+//    DataUtils.getInfoWord(
+//      {},
+//      opts[2],
+//    ).then((wordInfoResult4){
+////        print(wordInfoResult);
+//      qOpt3 = wordInfoResult4;
+//      print(qOpt3);
+//    });
+//
+//    DataUtils.getInfoWord(
+//      {},
+//      opts[3],
+//    ).then((wordInfoResult){
+////        print(wordInfoResult);
+//      qOpt4 = wordInfoResult;
+//      print(qOpt4);
+//    });
+
+//    if (_updated == false) {
+//      DataUtils.getWordList(
+//        {},
+//        info.userid,
+//        0,
+//      ).then((wordListResult){
+//        setState(() {
+//          userInfoData.quizBrain.createQInfoBank(wordListResult);
+//          print('create quiz info bank ok');
+//          _updated = true;
+//          qWord = userInfoData.quizBrain.getWord(userInfoData.quizBrain.getQInfoWid());
+//          opts = userInfoData.quizBrain.getQInfoOpt();
+//          qOpt1 = userInfoData.quizBrain.getWord(opts[0]);
+//          qOpt2 = userInfoData.quizBrain.getWord(opts[1]);
+//          qOpt3 = userInfoData.quizBrain.getWord(opts[2]);
+//          qOpt4 = userInfoData.quizBrain.getWord(opts[3]);
+//
+//        });
+//      }
+//      );
+//    }
+//    else {
+//      qWord = userInfoData.quizBrain.getWord(userInfoData.quizBrain.getQInfoWid());
+//      opts = userInfoData.quizBrain.getQInfoOpt();
+//      qOpt1 = userInfoData.quizBrain.getWord(opts[0]);
+//      qOpt2 = userInfoData.quizBrain.getWord(opts[1]);
+//      qOpt3 = userInfoData.quizBrain.getWord(opts[2]);
+//      qOpt4 = userInfoData.quizBrain.getWord(opts[3]);
+//
+//
+//    }
+//  print('in page');
+//    opts = userInfoData.quizBrain.getQInfoOpt();
+//    print('ok');
+//      DataUtils.getInfoWord(
+//        {},
+//        userInfoData.quizBrain.getQInfoWid(),
+//      ).then((wordInfoResult){
+////        print(wordInfoResult);
+//        qWord = wordInfoResult;
+//      });
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[0],
+//      ).then((wordInfoResult){
+////        print(wordInfoResult);
+//        qOpt1 = wordInfoResult;
+//      });
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[1],
+//      ).then((wordInfoResult){
+////        print(wordInfoResult);
+//        qOpt2 = wordInfoResult;
+//      });
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[2],
+//      ).then((wordInfoResult){
+////        print(wordInfoResult);
+//        qOpt3 = wordInfoResult;
+//      });
+//      DataUtils.getInfoWord(
+//        {},
+//        opts[3],
+//      ).then((wordInfoResult){
+////        print(wordInfoResult);
+//        qOpt4 = wordInfoResult;
+//      });
+
+
+
+//    List<String> ABCD = quizBrain.getABCD();
+
+    qWord = userInfoData.quizBrain.getWord(userInfoData.quizBrain.getQInfoWid());
+    opts = userInfoData.quizBrain.getQInfoOpt();
+    qOpt1 = userInfoData.quizBrain.getWord(opts[0]);
+    qOpt2 = userInfoData.quizBrain.getWord(opts[1]);
+    qOpt3 = userInfoData.quizBrain.getWord(opts[2]);
+    qOpt4 = userInfoData.quizBrain.getWord(opts[3]);
+
+
     return new Stack(
       fit: StackFit.expand,
         children: <Widget>[
@@ -97,14 +347,15 @@ class _QuizPageState extends State<QuizPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              new FavoriteWidget(),
+              new FavoriteWidget(), //todo: each expand
               Expanded(
                 flex: 12,
                 child: Padding(
                   padding:  EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0,),
                   child: Center(
                     child: Text(
-                      quizBrain.getQuestionText(),
+                      qWord.eng,
+//                      qWord["English"],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 25.0,
@@ -125,15 +376,17 @@ class _QuizPageState extends State<QuizPage> {
                     textColor: Colors.white,
                     color: Colors.grey[50],
                     child: Text(
-                      ABCD[0],
+                      qOpt1.chn,
+//                      qOpt1['Chinese'][0],
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 20.0,
+                        fontSize: 16.0,
                       ),
                     ),
                     onPressed: () {
                       //The user picked true.
-                      checkAnswer(ABCD[0]);
+//                      checkAnswer(ABCD[0]);
+                      checkingAnswer(opts[0]);
                     },
                   ),
                 ),
@@ -148,15 +401,17 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     color: Colors.grey[50],
                     child: Text(
-                      ABCD[1],
+                      qOpt2.chn,
+//                      qOpt2['Chinese'][0],
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 16.0,
                         color: Colors.black54,
                       ),
                     ),
                     onPressed: () {
                       //The user picked false.
-                      checkAnswer(ABCD[1]);
+//                      checkAnswer(ABCD[1]);
+                      checkingAnswer(opts[1]);
                     },
                   ),
                 ),
@@ -172,15 +427,17 @@ class _QuizPageState extends State<QuizPage> {
                     textColor: Colors.white,
                     color: Colors.grey[50],
                     child: Text(
-                      ABCD[2],
+                      qOpt3.chn,
+//                      qOpt3['Chinese'][0],
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 20.0,
+                        fontSize: 16.0,
                       ),
                     ),
                     onPressed: () {
                       //The user picked true.
-                      checkAnswer(ABCD[2]);
+//                      checkAnswer(ABCD[2]);
+                      checkingAnswer(opts[2]);
                     },
                   ),
                 ),
@@ -195,15 +452,17 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     color: Colors.grey[50],
                     child: Text(
-                      ABCD[3],
+                      qOpt4.chn,
+//                      qOpt4['Chinese'][0],
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 16.0,
                         color: Colors.black54,
                       ),
                     ),
                     onPressed: () {
                       //The user picked false.
-                      checkAnswer(ABCD[3]);
+//                      checkAnswer(ABCD[3]);
+                      checkingAnswer(opts[3]);
                     },
                   ),
                 ),
@@ -220,10 +479,66 @@ class _QuizPageState extends State<QuizPage> {
             ],
           ),
           overlayShouldBeVisible == true ? new CorrectWrongOverlay(
-              isCorrect,quizBrain,
+              isCorrect,userInfoData.quizBrain, //todo: chage to qword
                   () {
-                if (quizBrain.isFinished()) {
-                  quizBrain.reset();
+                    if (isCorrect)
+                      userInfoData.quizBrain.getQInfo().proficiency++;
+                    else if(userInfoData.quizBrain.getQInfo().proficiency==0)
+                      userInfoData.quizBrain.getQInfo().proficiency = 1;
+
+                    if (userInfoData.quizBrain.getQInfo().proficiency >= 3)
+                      userInfoData.quizBrain.getQInfo().proficiency = 3;
+
+                    Qinfo ttmp = userInfoData.quizBrain.getQInfo();
+
+                    DataUtils.postPlanRecord(
+                      {
+                        'data':{
+                          'result':[
+                            [
+                              ttmp.tid,
+                              ttmp.wid,
+                              ttmp.proficiency,
+                            ]
+                          ]
+                        }
+
+                      },
+                      info.userid,
+                    ).then((postResult){
+                      print(postResult);
+                      print('post plan record ok');
+                    });
+
+
+                if (userInfoData.quizBrain.isFinished()) {
+                  _updated = false;
+                  endtime =  new DateTime.now().toString();
+                  endtime = endtime.replaceRange(10, 11, '-');
+                  endtime = endtime.replaceAll(':','-');
+                  endtime = endtime.substring(0,19);
+
+                  print({
+                    "count":userInfoData.quizBrain.getCurNum()+1,
+                    "start":starttime,
+                    "end":endtime,
+                  });
+
+                  DataUtils.postRecord(
+                    {
+                      'data':{
+                        "count":userInfoData.quizBrain.getCurNum()+1,
+                        "start":starttime,
+                        "end":endtime,
+                      }
+                    },
+                    info.userid,
+                  ).then((postRecordResult){
+                    print(postRecordResult);
+                    print('post record ok');
+                  });
+
+                  userInfoData.quizBrain.reset();
 
                   Navigator.push(
                       context,
@@ -232,7 +547,7 @@ class _QuizPageState extends State<QuizPage> {
                       );
                   return;
                 }
-                quizBrain.nextQuestion();
+                userInfoData.quizBrain.nextQInfo();
 
                 this.setState(() {
                   overlayShouldBeVisible = false;

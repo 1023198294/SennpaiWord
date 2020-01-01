@@ -39,6 +39,8 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
 
   @override
   Widget build(BuildContext context) {
+    var tmp = widget._quizBrain.getWord(widget._quizBrain.getQInfoWid()).getDetail();
+
     return new Material(
       color: Colors.black54,
       child: new InkWell(
@@ -49,7 +51,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Transform.translate(
-                offset: Offset(0,-_iconAnimation1.value*280),
+                offset: Offset(0,-_iconAnimation1.value*320),
                 child: new Column(
                   children: <Widget>[
                     new Container(
@@ -71,7 +73,13 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
               ),
               new Transform.translate(
                 offset: Offset(0,-_iconAnimation1.value*150),
-                child: new Text('\n\n\n\n\n'+ widget._quizBrain.getExplanation(), style: new TextStyle(color: Colors.white, fontSize: 18.0),)
+                child: new Column(
+                  children: <Widget>[
+                    new Text('\n\n\n'+ tmp[0]+'   '+ tmp[1] +'\n' , style: new TextStyle(color: Colors.white, fontSize: 20.0),),
+//                    new Text(tmp[1] +'\n' , style: new TextStyle(color: Colors.white, fontSize: 16.0),),
+                    new Text(tmp[2] , style: new TextStyle(color: Colors.white, fontSize: 16.0),)
+                  ],
+                )
               ),
             ],
           ),
