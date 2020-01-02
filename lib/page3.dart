@@ -3,6 +3,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'page_vision/pie_chart.dart';
 import 'page_vision/bar_chart.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_app/utils/data_utils.dart';
+import 'package:flutter_app/userinfo/user_info.dart';
+import 'package:flutter_app/userinfo/user_info_data.dart';
 class VisualizeWidget extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -10,16 +13,35 @@ class VisualizeWidget extends StatefulWidget{
   }
 }
 
+
 class VisualizeWidgetState extends State<VisualizeWidget>{
+
+
+  @override
+  void initState(){
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('可视化'),
+        title: new Text('学习统计'),
       ),
       body: new Center(
         child: Container(
-          height: 300,
+          decoration: new BoxDecoration(
+            gradient: new LinearGradient(
+              begin: Alignment.centerLeft,
+              end: new Alignment(1.0, 0.0), // 10% of the width, so there are ten blinds.
+              colors: [Color(0xFF444152), Color(0xFF6f6c7d)], // whitish to gray
+              tileMode: TileMode.repeated, // repeats the gradient over the canvas
+            ),
+          ),
+          height: MediaQuery.of(context).size.height,
           child: new Swiper(
               layout: SwiperLayout.CUSTOM,
               customLayoutOption: new CustomLayoutOption(
@@ -62,28 +84,32 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
+  int month =  new DateTime.now().month;
+  int day = new DateTime.now().weekday;
+
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
-
   bool showAvg = false;
-
+  bool _up = false;
+  dynamic visualInfo;
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.70,
+          aspectRatio: 1.50,
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
-                  Radius.circular(18),
+                  Radius.circular(12),
                 ),
                 color: const Color(0xff232d37)),
             child: Padding(
               padding: const EdgeInsets.only(
-                  right: 18.0, left: 12.0, top: 24, bottom: 12),
+                  right: 15.0, left: 9.0, top: 20, bottom: 8),
               child: LineChart(
                 showAvg ? avgData() : mainData(),
               ),
@@ -100,9 +126,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
               });
             },
             child: Text(
-              'avg',
+              '活跃时间',
               style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 10,
                   color:
                   showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
             ),
@@ -113,6 +139,23 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   LineChartData mainData() {
+
+
+    if (_up == false){
+      DataUtils.getVisualRecord(
+        {},
+        userInfoData.transdata.userid,
+      ).then((visualRes){
+        setState(() {
+          //        print(wordInfoResult);
+          visualInfo = visualRes;
+          print(visualInfo);
+          _up = true;
+        });
+      });
+      return new LineChartData();
+    }
+
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -138,15 +181,23 @@ class _LineChartSample2State extends State<LineChartSample2> {
           textStyle: TextStyle(
               color: const Color(0xff68737d),
               fontWeight: FontWeight.bold,
-              fontSize: 16),
+              fontSize: 10),
           getTitles: (value) {
             switch (value.toInt()) {
+              case 0:
+                return '6天前';
+              case 1:
+                return '5天前';
               case 2:
-                return 'MAR';
+                return '4天前';
+              case 3:
+                return '3天前';
+              case 4:
+                return '前天';
               case 5:
-                return 'JUN';
-              case 8:
-                return 'SEP';
+                return '昨天';
+              case 6:
+                return '今天';
             }
             return '';
           },
@@ -161,36 +212,36 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ),
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
+              case 0:
+                return '0';
+              case 20:
+                return '20';
+              case 40:
+                return '40';
             }
             return '';
           },
           reservedSize: 28,
-          margin: 12,
+          margin: 10,
         ),
       ),
       borderData: FlBorderData(
           show: true,
           border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
-      maxX: 11,
+      maxX: 6,
       minY: 0,
-      maxY: 6,
+      maxY: 60,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+          spots: [
+            FlSpot(0, visualInfo['active time'][0]),
+            FlSpot(1, visualInfo['active time'][1]),
+            FlSpot(2, visualInfo['active time'][2]),
+            FlSpot(3, visualInfo['active time'][3]),
+            FlSpot(4, visualInfo['active time'][4]),
+            FlSpot(5, visualInfo['active time'][5]),
+            FlSpot(6, visualInfo['active time'][6]),
           ],
           isCurved: true,
           colors: gradientColors,
@@ -210,6 +261,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   LineChartData avgData() {
+    var avg = (visualInfo['active time'][6]+visualInfo['active time'][1]+
+        visualInfo['active time'][2]+visualInfo['active time'][3]+visualInfo['active time'][4]+
+        visualInfo['active time'][5]+visualInfo['active time'][6])/7;
     return LineChartData(
       lineTouchData: const LineTouchData(enabled: false),
       gridData: FlGridData(
@@ -236,15 +290,23 @@ class _LineChartSample2State extends State<LineChartSample2> {
           textStyle: TextStyle(
               color: const Color(0xff68737d),
               fontWeight: FontWeight.bold,
-              fontSize: 16),
+              fontSize: 10),
           getTitles: (value) {
             switch (value.toInt()) {
+              case 0:
+                return '6天前';
+              case 1:
+                return '5天前';
               case 2:
-                return 'MAR';
+                return '4天前';
+              case 3:
+                return '3天前';
+              case 4:
+                return '前天';
               case 5:
-                return 'JUN';
-              case 8:
-                return 'SEP';
+                return '昨天';
+              case 6:
+                return '今天';
             }
             return '';
           },
@@ -259,12 +321,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ),
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
+              case 0:
+                return '0';
+              case 20:
+                return '20';
+              case 40:
+                return '40';
             }
             return '';
           },
@@ -276,19 +338,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
           show: true,
           border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
-      maxX: 11,
+      maxX: 6,
       minY: 0,
-      maxY: 6,
+      maxY: 60,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
+          spots:  [
+            FlSpot(0, avg),
+            FlSpot(1, avg),
+            FlSpot(2, avg),
+            FlSpot(3, avg),
+            FlSpot(4, avg),
+            FlSpot(5, avg),
+            FlSpot(6, avg),
           ],
           isCurved: true,
           colors: [

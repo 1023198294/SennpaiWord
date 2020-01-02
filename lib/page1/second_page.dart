@@ -490,7 +490,7 @@ class _QuizPageState extends State<QuizPage> {
                       userInfoData.quizBrain.getQInfo().proficiency = 3;
 
                     Qinfo ttmp = userInfoData.quizBrain.getQInfo();
-
+                    userInfoData.quizBrain.updateLnR();
                     DataUtils.postPlanRecord(
                       {
                         'data':{
@@ -519,7 +519,8 @@ class _QuizPageState extends State<QuizPage> {
                   endtime = endtime.substring(0,19);
 
                   print({
-                    "count":userInfoData.quizBrain.getCurNum()+1,
+                    "count_learned":userInfoData.quizBrain.getLearnNum(),
+                    "count_reviewed":userInfoData.quizBrain.getReviewNum(),
                     "start":starttime,
                     "end":endtime,
                   });
@@ -527,7 +528,8 @@ class _QuizPageState extends State<QuizPage> {
                   DataUtils.postRecord(
                     {
                       'data':{
-                        "count":userInfoData.quizBrain.getCurNum()+1,
+                        "count_learned":userInfoData.quizBrain.getLearnNum(),
+                        "count_reviewed":userInfoData.quizBrain.getReviewNum(),
                         "start":starttime,
                         "end":endtime,
                       }
