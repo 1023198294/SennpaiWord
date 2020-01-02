@@ -139,14 +139,14 @@ class _FirstPageState extends State<LoginScreen2> {
                     height: 144.0,
                     width: 144.0,
                     child: LiquidCircularProgressIndicator(
-                      value: _todayslearn/_todayslearn, //当前进度 0-1
+                      value: _todayslearn/(_todayslearn+0.000001), //当前进度 0-1
                       valueColor: AlwaysStoppedAnimation(Colors.grey[50]), // 进度值的颜色.
                       backgroundColor: this.backgroundColor1, // 背景颜色.
                       borderColor: this.backgroundColor1,//边框颜色
                       borderWidth: 3.0,
                       direction: Axis.vertical,
                       center: Text(
-                        (_todayslearn-0).toString(),
+                        (_todayslearn).toString(),
                         style: TextStyle(fontSize: 48,color: this.backgroundColor2),
                       ),
                     ),

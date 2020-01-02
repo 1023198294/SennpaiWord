@@ -77,7 +77,7 @@ class QuizBrain {
 //    }
     if (_qInfoNumber >= _qInfoBank.length - 1) {
 
-      print('Now returning true');
+      print('Now return true');
       return true;
 
     } else {
@@ -86,8 +86,9 @@ class QuizBrain {
     }
 
     void reset() {
-//    _questionNumber = 0;
-    _qInfoNumber = 0;
+      _reviewNumber = 0;
+      _qInfoNumber = 0;
+      _learnNumber = 0;
     }
 //--------------------------
 
@@ -99,6 +100,21 @@ class QuizBrain {
   Map<String,Worddetail> _wDetBank = new Map();
 
 
+  int _learnNumber = 0;
+  int _reviewNumber = 0;
+
+  void updateLnR(){
+    if (_qInfoBank[_qInfoNumber].attribute == 'learn')
+      _learnNumber++;
+    else if(_qInfoBank[_qInfoNumber].attribute == 'review')
+      _reviewNumber++;
+  }
+  int getLearnNum(){
+    return _learnNumber;
+  }
+  int getReviewNum(){
+    return _reviewNumber;
+  }
 
   int getCurNum(){
     return _qInfoNumber;
@@ -111,6 +127,7 @@ class QuizBrain {
 //    print(wordlist['todayLearn']);
 
     if (wordlist['todayLearn'] != null) {
+      print('learn:'+wordlist['todayLearn'].length.toString());
 
       for (int i = 0; i < wordlist['todayLearn'].length; ++i) {
         var tmp = wordlist['todayLearn'][i];
@@ -176,8 +193,10 @@ class QuizBrain {
       }
     }
     else if (wordlist['todayReview'] != null) {
-      var tmp = wordlist['todayReview'];
+      print('review:'+wordlist['todayReview'].length.toString());
+
       for (int i = 0; i < wordlist['todayReview'].length; ++i) {
+        var tmp = wordlist['todayReview'][i];
         _qInfoBank.add(
             Qinfo(tmp[0], tmp[1], tmp[2], tmp[3], 'review'));
         if (_wDetBank.containsKey(tmp[1]) == false){

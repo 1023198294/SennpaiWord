@@ -32,7 +32,8 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('记录'),
+        title: new Text('词库'),
+        backgroundColor: Colors.white,
       ),
       body: new Center(
         child: ListView(

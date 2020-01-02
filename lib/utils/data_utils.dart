@@ -73,7 +73,7 @@ class DataUtils{
   }
 
   static Future getInfoWord(Map<String,dynamic> params,String wid) async{
-    var response = await NetUtils.get(Api.GET_INFO_USER+'/word/'+wid, params);
+    var response = await NetUtils.get(Api.GET_INFO_WORD+ '/'+wid, params);
     return response['data'];
   }
 
