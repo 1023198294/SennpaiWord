@@ -182,7 +182,7 @@ class DataUtils{
         }
       }
     );
-    print('post info data :'+userInfoData.transdata.avatarpic);
+    //print('post info data :'+userInfoData.transdata.avatarpic);
     return response['data'];
   }
 }

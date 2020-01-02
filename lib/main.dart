@@ -45,7 +45,7 @@ class MyHomePageState extends State<MyHomePage>{
     ]);
     UserInfo init_info = UserInfo();
     userInfoData.transdata = init_info;
-    DataUtils.TestLogOut().then((res){}); //仅供测试
+    //DataUtils.TestLogOut().then((res){}); //仅供测试
     DataUtils.checkLogin().then((haslogin){
       //print(haslogin);
       if (haslogin == true){
@@ -195,11 +195,13 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             _currentIndex = i;
             print(_currentIndex);
           });
-          if (i == 3){
-            DataUtils.getUserInfo().then((res){
+          if (_currentIndex == 3){
+            DataUtils.getUserInfo(userInfoData.transdata.userid).then((res){
               setState(() {
-                print('res is '+res['Avatar']);
+                //print('res is '+res['Avatar']);
+                print(res['Avatar']);
                 userInfoData.transdata.avatarpic = res['Avatar'];
+                print(res['Uname']);
 
               });
             });

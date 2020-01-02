@@ -4,13 +4,13 @@ import 'package:flutter_app/utils/data_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zefyr/zefyr.dart';
 import 'package:notus/convert.dart';
-class SelectListPage extends StatefulWidget{
+class UpdateInfoPage extends StatefulWidget{
   @override
-  State<SelectListPage> createState(){
-    return SelectListPageState();
+  State<UpdateInfoPage> createState(){
+    return UpdateInfoPageState();
   }
 }
-class SelectListPageState extends State<SelectListPage> {
+class UpdateInfoPageState extends State<UpdateInfoPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -27,9 +27,10 @@ class SelectListPageState extends State<SelectListPage> {
     return WillPopScope(
         child:Scaffold(
           appBar: AppBar(
-            title: Text('用户反馈'),
+            title: Text('版本更新'),
           ),
           body: Scaffold(
+            body: Text('当前已是最新版本,无需更新'),
           ),
         ),
         onWillPop: () {
