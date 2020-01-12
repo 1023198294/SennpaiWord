@@ -34,7 +34,7 @@ class DataUtils{
   }
   static Future doSignUp(Map<String,dynamic> params) async{
     var response = await NetUtils.post(Api.DO_SIGNUP, params);
-    return response['data'];
+    return response;
     //await prefs.setBool('if_login', true);
   }
   static Future TestLogOut() async{

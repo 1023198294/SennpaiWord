@@ -5,6 +5,7 @@ import 'package:flutter_app/login/login.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:flutter_app/utils/data_utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -273,13 +274,14 @@ class _SignUpPageState extends State<SignUpPage>{
               'PW':_password
               }}
             ).then((userResult){
-              print(userResult);
-              if(userResult == ''){
+
+              if(userResult['message'] != 0){
                 print('sign in error!');
+                Fluttertoast.showToast(msg: 'Sign up error!\n Please check the information!');
               }else{
                 //DataUtils.image2Base64(userInfoData.transdata.defaultpic).then((res){});
                 setState(() {
-                  userInfoData.transdata.userid = userResult;
+                  userInfoData.transdata.userid = userResult['data'];
                   userInfoData.transdata.username =_username;
                   userInfoData.transdata.password = _password;
                   userInfoData.transdata.email = _email;
