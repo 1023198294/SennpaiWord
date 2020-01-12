@@ -292,10 +292,8 @@ class _LineChartSample3State extends State<LineChartSample3> {
             switch (value.toInt()) {
               case 0:
                 return '0';
-              case 20:
-                return '20';
-              case 40:
-                return '40';
+              case 1:
+                return '1';
             }
             return '';
           },
@@ -309,7 +307,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
       minX: 0,
       maxX: 6,
       minY: 0,
-      maxY: 60,
+      maxY: 1,
       lineBarsData: [
         LineChartBarData(
           spots: [

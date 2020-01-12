@@ -15,20 +15,43 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
   Quiz quiz;
   List<WordsRecord> results = records;
   Color c;
+  bool _up = false;
   var info = userInfoData.transdata;
   dynamic _recordList;
 
   @override
   Widget build(BuildContext context) {
-    DataUtils.getPlanRecord({},info.userid).then((planRecordResult){
+    if (_up == false){
+      DataUtils.getPlanRecord({},info.userid).then((planRecordResult){
 //      print('here');
-//      setState(() {
+      setState(() {
         _recordList = planRecordResult;
-//      });
-      print(_recordList.length);
-      print('get reocrd list ok');
+        _up = true;
+      });
+        print(_recordList.length);
+        print('get reocrd list ok');
+      }
+      );
+      return new Scaffold(
+          appBar: new AppBar(
+            title: new Text('词库'),
+            backgroundColor: Colors.white,
+          ),
+          body: new Container(
+            decoration: new BoxDecoration(
+              color: Colors.white,
+//            gradient: new LinearGradient(
+//              begin: Alignment.centerLeft,
+//              end: new Alignment(1.0, 1.0), // 10% of the width, so there are ten blinds.
+//              colors: [Color(0xFF635554), Color(0xFF635554)], // whitish to gray
+//              tileMode: TileMode.repeated, // repeats the gradient over the canvas
+//            ),
+            ),
+          )
+
+      );
     }
-    );
+
 
     return new Scaffold(
       appBar: new AppBar(

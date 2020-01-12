@@ -262,7 +262,7 @@ class _FirstPageState extends State<LoginScreen2> {
                     width: 144.0,
                     child: LiquidCircularProgressIndicator(
                       value: _todayslearn/(10+0.000001), //当前进度 0-1
-                      valueColor: AlwaysStoppedAnimation(Color(0xffd1dce2)), // 进度值的颜色.
+                      valueColor: AlwaysStoppedAnimation(Colors.black12), // 进度值的颜色.
                       backgroundColor: this.backgroundColor2, // 背景颜色.
                       borderColor: this.backgroundColor1,//边框颜色
                       borderWidth: 3.0,

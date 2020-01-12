@@ -10,7 +10,7 @@ class UserInfo{
   String sex ;//default 'M'
   String wordlist ;//default 'None'
   String education;//default 'Undergraduate'
-  bool haslogin ;//default false
+  bool haslogin=false;//default false
   var plan;
   //var defaultpic =NetworkImage(
   //    'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1575981417&di=654891dd70bee883c0f3c499f186582c&src=http://pic4.zhimg.com/50/v2-882fb1a465545c31301b9e7f9dfa9fc7_r.jpg');

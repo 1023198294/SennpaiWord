@@ -28,13 +28,15 @@ class DataUtils{
     var if_login1 = prefs.getBool('if_login');
     //return if_login;
     var if_login2 = userInfoData.transdata.haslogin;
-    if (if_login2 == null)
+    if (if_login2 == null )
+      return false;
+    if(if_login2 == false)
       return false;
     return if_login1 || if_login2;
   }
   static Future doSignUp(Map<String,dynamic> params) async{
     var response = await NetUtils.post(Api.DO_SIGNUP, params);
-    return response;
+    return response['data'];
     //await prefs.setBool('if_login', true);
   }
   static Future TestLogOut() async{
@@ -42,11 +44,9 @@ class DataUtils{
     prefs.setBool('if_login', false);
     return true;
   }
-  static Future doLogOut(Map<String,dynamic> params) async{
+  static Future doLogOut() async{
     final prefs = await SharedPreferences.getInstance();
-    var response = await NetUtils.post(Api.DO_LOGOUT,params);
     prefs.setBool('if_login',false);
-    return response['data'];
   }
 
 //-----------page1first---------
@@ -169,17 +169,20 @@ class DataUtils{
     var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',{});
     return response['data'];
     }
-  static Future postUserInfo() async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',
-      {
-        'Uname':userInfoData.transdata.username,
-        'Avatar':userInfoData.transdata.avatarpic,
-        'Sex':'M',
-        'Education':'',
-        'Grade':''
-      }
+  static Future postUserInfo(String uid) async{
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid+'/info',
+        {
+          'data':
+          {
+            'Uname':userInfoData.transdata.username,
+            'Avatar':userInfoData.transdata.avatarpic,
+            'Sex':'M',
+            'Education':'',
+            'Grade':''
+          }
+        }
     );
-    print('post info data');
+    //print('post info data :'+userInfoData.transdata.avatarpic);
     return response['data'];
   }
 }

@@ -164,36 +164,38 @@ class _LoginPageState extends State<LoginPage>{
             //只有输入通过验证，才会执行这里
             _formKey.currentState.save();
             //todo 登录操作 , 非测试环境下把下面的代码黏上来
+            setState(() {
+              isLoading = true;
+            });
+            DataUtils.doLogin(
+                {
+                  'data':{
+                    'type':1,
+                    'info':_username,
+                    'PW':_password
+                  }
+                }).then((userResult){
+
+              if (userResult != '') {
+                setState(() {
+                  print(userResult);
+                  userInfoData.transdata.haslogin = true;
+                  userInfoData.transdata.username = userResult['Uname'];
+                  print(userResult['Uname']);
+                  userInfoData.transdata.email = userResult['Mail'];
+                  userInfoData.transdata.userid = userResult['UID'];
+                  userInfoData.transdata.pnumber = userResult['Pnumber'];
+                });
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => BottomNavigationWidget()), (
+                    route) => route == null
+                ); //directly to the home page
+              }
+            });
             print("$_username log in with password $_password");
           }
-          setState(() {
-            isLoading = true;
-          });
-          DataUtils.doLogin(
-              {
-                'data':{
-                  'type':1,
-                  'info':_username,
-                  'PW':_password
-                }
-          }).then((userResult){
-            if (userResult != '') {
-              setState(() {
-                print(userResult);
-                userInfoData.transdata.haslogin = true;
-                userInfoData.transdata.username = userResult['Uname'];
-                print(userResult['Uname']);
-                userInfoData.transdata.email = userResult['Mail'];
-                userInfoData.transdata.userid = userResult['UID'];
-                userInfoData.transdata.pnumber = userResult['Pnumber'];
-              });
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) => BottomNavigationWidget()), (
-                  route) => route == null
-              ); //directly to the home page
-            }
-          });
+
           },
       )
     );

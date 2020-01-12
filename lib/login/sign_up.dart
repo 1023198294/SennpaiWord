@@ -5,12 +5,11 @@ import 'package:flutter_app/login/login.dart';
 import 'package:flutter_app/userinfo/user_info.dart';
 import 'package:flutter_app/userinfo/user_info_data.dart';
 import 'package:flutter_app/utils/data_utils.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_app/main.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class SignUpPage extends StatefulWidget{
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -268,29 +267,29 @@ class _SignUpPageState extends State<SignUpPage>{
             DataUtils.doSignUp(
                 {
                   'data':{
-              'Uname':_username,
-              'Mail':_email,
-              'Pnumber':_pnumber,
-              'PW':_password
-              }}
+                    'Uname':_username,
+                    'Mail':_email,
+                    'Pnumber':_pnumber,
+                    'PW':_password
+                  }}
             ).then((userResult){
-
-              if(userResult['message'] != 0){
+              print(userResult);
+              if(userResult == ''){
                 print('sign in error!');
-                Fluttertoast.showToast(msg: 'Sign up error!\n Please check the information!');
               }else{
                 //DataUtils.image2Base64(userInfoData.transdata.defaultpic).then((res){});
                 setState(() {
-                  userInfoData.transdata.userid = userResult['data'];
+                  userInfoData.transdata.userid = userResult;
                   userInfoData.transdata.username =_username;
                   userInfoData.transdata.password = _password;
                   userInfoData.transdata.email = _email;
                   userInfoData.transdata.pnumber = _pnumber;
                   userInfoData.transdata.haslogin = true;
                 });
+                Fluttertoast.showToast(msg: 'sign up complete!');
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
-              );
+                    MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
+                );
               }//directly to the home page
             });
           },
@@ -338,7 +337,7 @@ class _SignUpPageState extends State<SignUpPage>{
     List<DropdownMenuItem> list = new List();
     DropdownMenuItem dropdownMenuItem1 = DropdownMenuItem(
         child: new Text('SEX                                                M'),
-      value:'M'
+        value:'M'
     );
     list.add(dropdownMenuItem1);
     DropdownMenuItem dropdownMenuItem2 = DropdownMenuItem(

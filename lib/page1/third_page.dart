@@ -51,7 +51,7 @@ class CorrectWrongOverlayState extends State<CorrectWrongOverlay> with SingleTic
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Transform.translate(
-                offset: Offset(0,-_iconAnimation1.value*320),
+                offset: Offset(0,-_iconAnimation1.value*450),
                 child: new Column(
                   children: <Widget>[
                     new Container(

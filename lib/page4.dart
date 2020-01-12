@@ -63,7 +63,7 @@ class MyPageWidgetState extends State<MyPageWidget>{
         userInfoData.transdata.avatarpic = res;
       });
     });
-    DataUtils.postUserInfo().then((res){});
+    DataUtils.postUserInfo(userInfoData.transdata.userid).then((res){});
   }
   @override
   Widget build(BuildContext context) {
@@ -201,7 +201,10 @@ class MyPageWidgetState extends State<MyPageWidget>{
               ),
               onTap: (){
                 print('退出登录');
-                Navigator.of(context).pop();
+                userInfoData.transdata.haslogin = false;
+                DataUtils.doLogOut();
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=>LoginPage()));
               },
             ),
             //sectionB,
