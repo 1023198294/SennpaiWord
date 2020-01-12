@@ -7,6 +7,7 @@ import 'package:flutter_app/page4/feedback.dart';
 import 'package:flutter_app/page4/select_list.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_app/login/login.dart';
 class MyPageWidget extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -186,6 +187,21 @@ class MyPageWidgetState extends State<MyPageWidget>{
               onTap: (){
                 print('分享应用');
                 Share.share('www.baidu.com');
+              },
+            ),
+
+            new Divider(),
+            ListTile(
+              leading: Icon(
+                Icons.directions_run,
+                size:27.0,
+              ),
+              title: Text(
+                  '退出登录'
+              ),
+              onTap: (){
+                print('退出登录');
+                Navigator.of(context).pop();
               },
             ),
             //sectionB,
