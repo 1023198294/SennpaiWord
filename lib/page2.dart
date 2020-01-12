@@ -35,44 +35,58 @@ class RecordPageWidgetState extends State<RecordPageWidget>{
         title: new Text('词库'),
         backgroundColor: Colors.white,
       ),
-      body: new Center(
-        child: ListView(
-          children: <Widget> [
-            ListTile(
-              leading: Icon(
-                Icons.star,
-                size: 27.0,
-              ),
-              title: Text(
-                  '收藏夹'
-              ),
-              onTap: (){
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => questionList()),
-                );
-              },
-            ),
-            new Divider(),
-            ListTile(
-              leading: Icon(
-                Icons.book,
-                size:27.0,
-              ),
-              title: Text(
-                  '当前词库'
-              ),
-              onTap: (){
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => questionList()),
-                );
-              },
-            ),
-          ],
+      body: new Container(
+        decoration: new BoxDecoration(
+          color: Colors.white,
+//            gradient: new LinearGradient(
+//              begin: Alignment.centerLeft,
+//              end: new Alignment(1.0, 1.0), // 10% of the width, so there are ten blinds.
+//              colors: [Color(0xFF635554), Color(0xFF635554)], // whitish to gray
+//              tileMode: TileMode.repeated, // repeats the gradient over the canvas
+//            ),
         ),
+        height: MediaQuery.of(context).size.height,
+        child:       new Center(
+
+          child: ListView(
+            children: <Widget> [
+              ListTile(
+                leading: Icon(
+                  Icons.star,
+                  size: 27.0,
+                ),
+                title: Text(
+                    '收藏夹'
+                ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => questionList()),
+                  );
+                },
+              ),
+              new Divider(),
+              ListTile(
+                leading: Icon(
+                  Icons.book,
+                  size:27.0,
+                ),
+                title: Text(
+                    '当前词库'
+                ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => questionList()),
+                  );
+                },
+              ),
+            ],
+          ),
 //        questionList(),
-      ),
+        ),
+      )
+
     );
   }
 

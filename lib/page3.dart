@@ -30,16 +30,18 @@ class VisualizeWidgetState extends State<VisualizeWidget>{
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('学习统计'),
+        backgroundColor: Colors.white,
       ),
       body: new Center(
         child: Container(
           decoration: new BoxDecoration(
-            gradient: new LinearGradient(
-              begin: Alignment.centerLeft,
-              end: new Alignment(1.0, 0.0), // 10% of the width, so there are ten blinds.
-              colors: [Color(0xFF444152), Color(0xFF6f6c7d)], // whitish to gray
-              tileMode: TileMode.repeated, // repeats the gradient over the canvas
-            ),
+            color:Colors.white,
+//            gradient: new LinearGradient(
+//              begin: Alignment.centerLeft,
+//              end: new Alignment(1.0, 1.0), // 10% of the width, so there are ten blinds.
+//              colors: [Color(0xFF635554), Color(0xFF635554)], // whitish to gray
+//              tileMode: TileMode.repeated, // repeats the gradient over the canvas
+//            ),
           ),
           height: MediaQuery.of(context).size.height,
           child: new Swiper(
@@ -76,7 +78,7 @@ class VisualizeWidgetState extends State<VisualizeWidget>{
     );
   }
 }
-List <dynamic> imgs=[LineChartSample2(),PieChartSample2(),BarChartSample3()];
+List <dynamic> imgs=[LineChartSample2(),PieChartSample2(),BarChartSample3(),LineChartSample3()];
 
 class LineChartSample2 extends StatefulWidget {
   @override
@@ -88,8 +90,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
   int day = new DateTime.now().weekday;
 
   List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
+    const Color(0xffaec8ca),
+    const Color(0xffd28a7c),
   ];
   bool showAvg = false;
   bool _up = false;
@@ -155,8 +157,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
       });
       return new LineChartData();
     }
+    if (visualInfo == visualInfo.toString()) {
+      return new LineChartData();
+    }
 
-    return LineChartData(
+      return LineChartData(
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,

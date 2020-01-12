@@ -20,12 +20,13 @@ class Quizzler extends StatelessWidget {
     return MaterialApp(
       home: Container(
         decoration: new BoxDecoration(
-          gradient: new LinearGradient(
-            begin: Alignment.centerLeft,
-            end: new Alignment(1.0, 0.0), // 10% of the width, so there are ten blinds.
-            colors: [Color(0xFF444152), Color(0xFF6f6c7d)], // whitish to gray
-            tileMode: TileMode.repeated, // repeats the gradient over the canvas
-          ),
+          color: Color(0xFF444152),
+//          gradient: new LinearGradient(
+//            begin: Alignment.centerLeft,
+//            end: new Alignment(1.0, 0.0), // 10% of the width, so there are ten blinds.
+//            colors: [Color(0xFF444152), Color(0xFF6f6c7d)], // whitish to gray
+//            tileMode: TileMode.repeated, // repeats the gradient over the canvas
+//          ),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -376,7 +377,7 @@ class _QuizPageState extends State<QuizPage> {
                     textColor: Colors.white,
                     color: Colors.grey[50],
                     child: Text(
-                      qOpt1.chn,
+                      cutString(qOpt1.chn),
 //                      qOpt1['Chinese'][0],
                       style: TextStyle(
                         color: Colors.black54,
@@ -401,7 +402,7 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     color: Colors.grey[50],
                     child: Text(
-                      qOpt2.chn,
+                      cutString(qOpt2.chn),
 //                      qOpt2['Chinese'][0],
                       style: TextStyle(
                         fontSize: 16.0,
@@ -427,7 +428,7 @@ class _QuizPageState extends State<QuizPage> {
                     textColor: Colors.white,
                     color: Colors.grey[50],
                     child: Text(
-                      qOpt3.chn,
+                      cutString(qOpt3.chn),
 //                      qOpt3['Chinese'][0],
                       style: TextStyle(
                         color: Colors.black54,
@@ -452,7 +453,7 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     color: Colors.grey[50],
                     child: Text(
-                      qOpt4.chn,
+                      cutString(qOpt4.chn),
 //                      qOpt4['Chinese'][0],
                       style: TextStyle(
                         fontSize: 16.0,
@@ -613,3 +614,8 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   }
 }
 
+String cutString(String str) {
+  if (str.length > 20)
+    str=str.substring(0,20)+'...';
+  return str;
+}

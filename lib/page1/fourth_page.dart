@@ -12,7 +12,7 @@ class ScorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Material(//todo: add visualization information
-        color: Colors.blueGrey,
+        color: Color(0xFF444152),
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

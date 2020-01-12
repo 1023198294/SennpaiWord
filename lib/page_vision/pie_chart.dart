@@ -30,6 +30,9 @@ class PieChart2State extends State {
       });
       return new AspectRatio(aspectRatio: 1.3);
     }
+    if (visualInfo == visualInfo.toString()) {
+      return new AspectRatio(aspectRatio: 1.3);
+    }
 
     return AspectRatio(
       aspectRatio: 1.3,
@@ -38,7 +41,7 @@ class PieChart2State extends State {
         child: Stack(
           children: <Widget>[
             Text(
-                ' 单词熟练度',
+                '  单词\n  熟练度',
               style: new TextStyle(fontSize: 14, color: Colors.white),
             ),
             Row(
@@ -76,7 +79,7 @@ class PieChart2State extends State {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
                     Indicator(
-                      color: Color(0xff0293ee),
+                      color: Color(0xff6f5f5e),
                       text: '0',
                       textColor: Colors.white,
                       isSquare: true,
@@ -85,7 +88,7 @@ class PieChart2State extends State {
                       height: 4,
                     ),
                     Indicator(
-                      color: Color(0xfff8b250),
+                      color: Color(0xffd28a7c),
                       text: ('1'),
                       textColor: Colors.white,
                       isSquare: true,
@@ -94,7 +97,7 @@ class PieChart2State extends State {
                       height: 4,
                     ),
                     Indicator(
-                      color: Color(0xff845bef),
+                      color: Color(0xff6d8c8e),
                       text: '2',
                       textColor: Colors.white,
                       isSquare: true,
@@ -103,7 +106,7 @@ class PieChart2State extends State {
                       height: 4,
                     ),
                     Indicator(
-                      color: Color(0xff13d38e),
+                      color: Color(0xffaec8ca),
                       text: '3',
                       textColor: Colors.white,
                       isSquare: true,
@@ -135,7 +138,7 @@ class PieChart2State extends State {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: const Color(0xff0293ee),
+            color: const Color(0xff6f5f5e),
             value: visualInfo['proficiencyInfo'][6][0]/summ,
             title: (visualInfo['proficiencyInfo'][6][0]/summ*100).round().toString()+'%',
             radius: radius,
@@ -144,7 +147,7 @@ class PieChart2State extends State {
           );
         case 1:
           return PieChartSectionData(
-            color: const Color(0xfff8b250),
+            color: const Color(0xffd28a7c),
             value: visualInfo['proficiencyInfo'][6][1]/summ,
             title: (visualInfo['proficiencyInfo'][6][1]/summ*100).round().toString()+'%',
             radius: radius,
@@ -153,7 +156,7 @@ class PieChart2State extends State {
           );
         case 2:
           return PieChartSectionData(
-            color: const Color(0xff845bef),
+            color: const Color(0xff6d8c8e),
             value: visualInfo['proficiencyInfo'][6][2]/summ,
             title: (visualInfo['proficiencyInfo'][6][2]/summ*100).round().toString()+'%',
             radius: radius,
@@ -162,7 +165,7 @@ class PieChart2State extends State {
           );
         case 3:
           return PieChartSectionData(
-            color: const Color(0xff13d38e),
+            color: const Color(0xffaec8ca),
             value: visualInfo['proficiencyInfo'][6][3]/summ,
             title: (visualInfo['proficiencyInfo'][6][3]/summ*100).round().toString()+'%',
             radius: radius,
