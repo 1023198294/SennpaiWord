@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_app/main.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 class SignUpPage extends StatefulWidget{
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -286,7 +286,6 @@ class _SignUpPageState extends State<SignUpPage>{
                   userInfoData.transdata.pnumber = _pnumber;
                   userInfoData.transdata.haslogin = true;
                 });
-                Fluttertoast.showToast(msg: 'sign up complete!');
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
               );

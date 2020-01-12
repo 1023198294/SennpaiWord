@@ -165,24 +165,21 @@ class DataUtils{
     List<int> imageBytes = await file.readAsBytes();
     return base64Encode(imageBytes);
   }
-  static Future getUserInfo(String uid) async{
-    var response = await NetUtils.get(Api.GET_INFO_USER+'/'+uid+'/info',{'data':''});
+  static Future getUserInfo() async{
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',{});
     return response['data'];
     }
-  static Future postUserInfo(String uid) async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid+'/info',
+  static Future postUserInfo() async{
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',
       {
-        'data':
-        {
-          'Uname':userInfoData.transdata.username,
-          'Avatar':userInfoData.transdata.avatarpic,
-          'Sex':'M',
-          'Education':'',
-          'Grade':''
-        }
+        'Uname':userInfoData.transdata.username,
+        'Avatar':userInfoData.transdata.avatarpic,
+        'Sex':'M',
+        'Education':'',
+        'Grade':''
       }
     );
-    //print('post info data :'+userInfoData.transdata.avatarpic);
+    print('post info data');
     return response['data'];
   }
 }
