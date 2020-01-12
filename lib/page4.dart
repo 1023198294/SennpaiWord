@@ -7,6 +7,8 @@ import 'package:flutter_app/page4/feedback.dart';
 import 'package:flutter_app/page4/select_list.dart';
 import 'package:flutter_app/utils/data_utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 class MyPageWidget extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -17,7 +19,7 @@ class MyPageWidget extends StatefulWidget{
 class MyPageWidgetState extends State<MyPageWidget>{
   String username;
   String useremail;
-  bool hasVar;
+  bool hasVar=false;
   var pic;
   var base642pic;
   var _imgPath;
@@ -34,12 +36,19 @@ class MyPageWidgetState extends State<MyPageWidget>{
     });
     DataUtils.checkLogin().then((res)
     {
+      if(hasVar){
+        setState(() {
+          pic = base642pic;
+          print('Have pic already');
+          print('avat: '+userInfoData.transdata.avatarpic);
+        });
+      }else
       if (res && userInfoData.transdata.avatarpic != '0')
         {
           setState(() {
             pic = base642pic;
             hasVar = true;
-            print('not default pic');
+            print('has no default pic');
           });
         }else{
        setState(() {
@@ -56,13 +65,18 @@ class MyPageWidgetState extends State<MyPageWidget>{
     setState(() {
       _imgPath = image;
       pic = FileImage(_imgPath);
+      hasVar = true;
     });
     DataUtils.image2Base64(_imgPath).then((res){
       setState(() {
         userInfoData.transdata.avatarpic = res;
+        print(userInfoData.transdata.avatarpic);
       });
     });
-    DataUtils.postUserInfo().then((res){});
+    DataUtils.postUserInfo(userInfoData.transdata.userid).then((res){
+      print('upload done');
+    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -168,10 +182,11 @@ class MyPageWidgetState extends State<MyPageWidget>{
                 size:27.0,
               ),
               title: Text(
-                  '版本升级'
+                  '检查更新'
               ),
               onTap: (){
-                print('版本升级');
+                Fluttertoast.showToast(msg: '当前已是最新版本,无需更新');
+                print('检查更新');
               },
             ),
             new Divider(),
