@@ -45,7 +45,7 @@ class MyHomePageState extends State<MyHomePage>{
     ]);
     UserInfo init_info = UserInfo();
     userInfoData.transdata = init_info;
-    DataUtils.TestLogOut().then((res){}); //仅供测试
+    //DataUtils.TestLogOut().then((res){}); //仅供测试
     DataUtils.checkLogin().then((haslogin){
       //print(haslogin);
       if (haslogin == true){
