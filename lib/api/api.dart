@@ -12,11 +12,13 @@ class Api {
   static const String GET_INFO_USER = BASE_URL + '/user';
   static const String GET_INFO_WORD = BASE_URL + '/word';
 
-  static const String GET_PLAN = BASE_URL + '/plan';
+  //static const String GET_PLAN = BASE_URL + '/plan';
+  static const String GET_PLAN = BASE_URL + '/vocabulary';
 
-  static const String POST_FEEDBACK = BASE_URL + '/feedback';
 
-  static const String POST_RECORD = BASE_URL + '/record';
+  static const String POST_FEEDBACK = GET_INFO_USER + '/feedback';
+
+  static const String POST_RECORD = GET_INFO_USER + '/record';
 
 
   static const String Test_API = BASE_URL +'/test';

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:convert/convert.dart';
 import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
@@ -52,7 +53,7 @@ class DataUtils{
 //-----------page1first---------
   static Future getInfoUserOverview(Map<String,dynamic> params,String uid,String infotype) async{
 //    print(uid);
-    var response = await NetUtils.get(Api.GET_INFO_USER+'/'+uid+'/overview', params);
+    var response = await NetUtils.get(Api.GET_INFO_USER+'/overview', params);
 //    print('overview:');
 //    print(response);
     if (response['message'] == 0)
@@ -65,12 +66,12 @@ class DataUtils{
 //  }
 //-------------page1second---------------
 
-  static Future getWordList(Map<String,dynamic> params,String uid,int counting) async{
-    var url = Api.GET_PLAN+'/'+uid+'/'+counting.toString();
+  static Future getWordList(Map<String,dynamic> params) async{
+    var url = Api.GET_INFO_USER+'/plan/list';
     var response = await NetUtils.get(url, params);
     print(url);
     return response['data'];
-  }
+  }//1.0.1
 
   static Future getInfoWord(Map<String,dynamic> params,String wid) async{
     var response = await NetUtils.get(Api.GET_INFO_WORD+ '/'+wid, params);
@@ -78,10 +79,10 @@ class DataUtils{
   }
 
   static Future postRecord(Map<String,dynamic> params, String uid,) async{
-    var url = Api.POST_RECORD+'/'+uid;
+    var url = Api.POST_RECORD;
 //    print(params);
     var response = await NetUtils.post(url, params);
-    print(url);
+    //print(url);
     return response['data'];
   }
 
@@ -90,31 +91,31 @@ class DataUtils{
   static Future getPlanList(Map<String,dynamic> params) async{
     var response = await NetUtils.get(Api.GET_PLAN, params);
     return response['data'];
-  }
+  }//1.0.1
+
   static Future postPlan(Map<String,dynamic> params, String uid,) async{
-    print(Api.GET_INFO_USER+'/'+uid+'/plan');
 //    print(params);
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid+'/plan', params);
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/plan', params);
     return response['data'];
   }
 
 
 //-----------page3-------------
   static Future getVisualRecord(Map<String,dynamic> params, String uid) async{
-    var url = Api.POST_RECORD+'/'+uid;
+    var url = Api.POST_RECORD;
     var response = await NetUtils.get(url, params);
     return response['data'];
   }
 
 //--------------page2----------------
   static Future getPlanRecord(Map<String,dynamic> params, String uid) async{
-    var url = Api.GET_PLAN+'/'+uid;
+    var url = Api.GET_PLAN;
     var response = await NetUtils.get(url, params);
     return response['data'];
   }
 
   static Future postPlanRecord(Map<String,dynamic> params, String uid,) async{
-    var url = Api.GET_PLAN+'/'+uid;
+    var url = Api.POST_RECORD;
 //    print(params);
     var response = await NetUtils.post(url, params);
     return response;
@@ -166,11 +167,11 @@ class DataUtils{
     return base64Encode(imageBytes);
   }
   static Future getUserInfo() async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+userInfoData.transdata.userid+'/info',{});
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/info',{});
     return response['data'];
     }
   static Future postUserInfo(String uid) async{
-    var response = await NetUtils.post(Api.GET_INFO_USER+'/'+uid+'/info',
+    var response = await NetUtils.post(Api.GET_INFO_USER+'/info',
         {
           'data':
           {
@@ -184,6 +185,12 @@ class DataUtils{
     );
     //print('post info data :'+userInfoData.transdata.avatarpic);
     return response['data'];
+  }//no usage
+  static String generateMd5(String data) {
+    var content = new Utf8Encoder().convert(data);
+    var digest = md5.convert(content);
+    // 这里其实就是 digest.toString()
+    return hex.encode(digest.bytes);
   }
 }
 
@@ -191,3 +198,4 @@ class DataUtils{
 
 String _encode(Object object) =>
     const JsonEncoder.withIndent(' ').convert(object);
+

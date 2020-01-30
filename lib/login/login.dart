@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget{
 class _LoginPageState extends State<LoginPage>{
   var _username = '';
   var _password = '';
+  var _md5 = '';
   var isLoading = false;
   var _isShowClear = false;
   var _isShowPwd = false;
@@ -106,7 +107,7 @@ class _LoginPageState extends State<LoginPage>{
               focusNode: _focusNodeUserName,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'username',
+                labelText: 'phone number',
                 hintText: 'phone number',
                 prefixIcon: Icon(Icons.person),
                 suffixIcon: (_isShowClear)?IconButton(icon: Icon(Icons.clear),onPressed: (){
@@ -172,7 +173,8 @@ class _LoginPageState extends State<LoginPage>{
                   'data':{
                     'type':1,
                     'info':_username,
-                    'PW':_password
+                    //'PW':_password
+                    'PW':DataUtils.generateMd5(_password)
                   }
                 }).then((userResult){
 
@@ -191,6 +193,9 @@ class _LoginPageState extends State<LoginPage>{
                         builder: (context) => BottomNavigationWidget()), (
                     route) => route == null
                 ); //directly to the home page
+              }
+              else{
+                print('no response');
               }
             });
             print("$_username log in with password $_password");
@@ -282,6 +287,7 @@ class _LoginPageState extends State<LoginPage>{
               }).then((res){
                 print(res);
               });*/
+              print(DataUtils.generateMd5('Jj971124'));
             },
           ),
           FlatButton(

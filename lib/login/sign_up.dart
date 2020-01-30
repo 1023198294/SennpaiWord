@@ -260,38 +260,40 @@ class _SignUpPageState extends State<SignUpPage>{
             if (_formKey.currentState.validate()) {
               //只有输入通过验证，才会执行这里
               _formKey.currentState.save();
+              setState(() {
+                isLoading = true;
+              });
+              DataUtils.doSignUp(
+                  {
+                    'data':{
+                      'Uname':_username,
+                      'Mail':_email,
+                      'Pnumber':_pnumber,
+                      'PW':DataUtils.generateMd5(_password)
+                    }}
+              ).then((userResult){
+                print(userResult);
+                print(DataUtils.generateMd5(_password));
+                if(userResult == ''){
+                  print('sign in error!');
+                }else{
+                  //DataUtils.image2Base64(userInfoData.transdata.defaultpic).then((res){});
+                  setState(() {
+                    userInfoData.transdata.userid = userResult;
+                    userInfoData.transdata.username =_username;
+                    userInfoData.transdata.password = _password;
+                    userInfoData.transdata.email = _email;
+                    userInfoData.transdata.pnumber = _pnumber;
+                    userInfoData.transdata.haslogin = true;
+                  });
+                  Fluttertoast.showToast(msg: 'sign up complete!');
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
+                  );
+                }//directly to the home page
+              });
             }
-            setState(() {
-              isLoading = true;
-            });
-            DataUtils.doSignUp(
-                {
-                  'data':{
-                    'Uname':_username,
-                    'Mail':_email,
-                    'Pnumber':_pnumber,
-                    'PW':_password
-                  }}
-            ).then((userResult){
-              print(userResult);
-              if(userResult == ''){
-                print('sign in error!');
-              }else{
-                //DataUtils.image2Base64(userInfoData.transdata.defaultpic).then((res){});
-                setState(() {
-                  userInfoData.transdata.userid = userResult;
-                  userInfoData.transdata.username =_username;
-                  userInfoData.transdata.password = _password;
-                  userInfoData.transdata.email = _email;
-                  userInfoData.transdata.pnumber = _pnumber;
-                  userInfoData.transdata.haslogin = true;
-                });
-                Fluttertoast.showToast(msg: 'sign up complete!');
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context)=>BottomNavigationWidget()),(route)=>route == null
-                );
-              }//directly to the home page
-            });
+
           },
         )
     );
